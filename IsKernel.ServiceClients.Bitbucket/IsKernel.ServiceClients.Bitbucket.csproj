@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{05FB9117-C219-40EF-B850-108512A7B217}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>IsKernel.ServiceClients.Bitbucket</RootNamespace>
+    <AssemblyName>IsKernel.ServiceClients.Bitbucket</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\Common\Responses\Branches\Branch.cs" />
+    <Compile Include="Contracts\Common\Responses\Commits\Commit.cs" />
+    <Compile Include="Contracts\Common\Responses\Commits\CommitLinks.cs" />
+    <Compile Include="Contracts\Common\Responses\Other\Link.cs" />
+    <Compile Include="Contracts\Common\Responses\Other\LinksBase.cs" />
+    <Compile Include="Contracts\Common\Responses\Other\Location.cs" />
+    <Compile Include="Contracts\Common\Responses\Other\SelfAndAvatarLinks.cs" />
+    <Compile Include="Contracts\Common\Responses\Other\NamedLink.cs" />
+    <Compile Include="Contracts\Common\Responses\Other\PaginatedResponse.cs" />
+    <Compile Include="Contracts\Common\Responses\PullRequests\PullRequest.cs" />
+    <Compile Include="Contracts\Common\Responses\PullRequests\PullRequestLinks.cs" />
+    <Compile Include="Contracts\Common\Responses\Users\UsersPaginatedResponse.cs" />
+    <Compile Include="Contracts\PullRequests\Requests\PullRequestsGetRequest.cs" />
+    <Compile Include="Contracts\PullRequests\Responses\PullRequestsListResponse.cs" />
+    <Compile Include="Exceptions\RequestParameterException.cs" />
+    <Compile Include="Models\Common\MultiValueRequestParameter.cs" />
+    <Compile Include="Models\Common\PostJsonModel.cs" />
+    <Compile Include="Models\Common\PrivateValueModel.cs" />
+    <Compile Include="Models\Common\RequestParameter.cs" />
+    <Compile Include="Models\Common\RequestParameterBase.cs" />
+    <Compile Include="Models\PullRequests\PullRequestState.cs" />
+    <Compile Include="Models\Repositories\ForkingPolicy.cs" />
+    <Compile Include="Models\Repositories\RepositoryAddOptionalParameters.cs" />
+    <Compile Include="Models\Repositories\RepositoryOptionalParameterJsonModel.cs" />
+    <Compile Include="Models\Repositories\Scm.cs" />
+    <Compile Include="Contracts\Common\Requests\PaginatedRequest.cs" />
+    <Compile Include="Contracts\Common\Requests\Repositories\RepositoryBaseRequest.cs" />
+    <Compile Include="Contracts\Common\Responses\Repositories\ParentRepository.cs" />
+    <Compile Include="Contracts\Common\Responses\Repositories\ParentRepositoryLinks.cs" />
+    <Compile Include="Contracts\Common\Responses\Repositories\RepositoriesPaginatedResponse.cs" />
+    <Compile Include="Contracts\Common\Responses\Repositories\Repository.cs" />
+    <Compile Include="Contracts\Common\Responses\Repositories\RepositoryLinks.cs" />
+    <Compile Include="Contracts\Repositories\Requests\RepositoryAddRequest.cs" />
+    <Compile Include="Contracts\Repositories\Requests\RepositoryDeleteRequest.cs" />
+    <Compile Include="Contracts\Repositories\Requests\RepositoryForksRequest.cs" />
+    <Compile Include="Contracts\Repositories\Requests\RepositoryGetRequest.cs" />
+    <Compile Include="Contracts\Repositories\Requests\RepositoryWatchersRequest.cs" />
+    <Compile Include="Contracts\Repositories\Responses\RepositoryForksResponse.cs" />
+    <Compile Include="Contracts\Repositories\Responses\RepositoryGetResponse.cs" />
+    <Compile Include="Contracts\Repositories\Responses\RepositoryWatchersResponse.cs" />
+    <Compile Include="Contracts\Users\Responses\FollowersList.cs" />
+    <Compile Include="Contracts\Users\Responses\FollowingList.cs" />
+    <Compile Include="Contracts\Users\Responses\User.cs" />
+    <Compile Include="Contracts\Users\Responses\UserLinks.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contracts" />
+    <Folder Include="Contracts\Common" />
+    <Folder Include="Contracts\Common\Responses\Commits" />
+    <Folder Include="Contracts\Common\Responses\Branches" />
+    <Folder Include="Contracts\Common\Responses\Users" />
+    <Folder Include="Contracts\Common\Responses\Other" />
+    <Folder Include="Contracts\Common\Responses\PullRequests" />
+    <Folder Include="Contracts\PullRequests" />
+    <Folder Include="Contracts\PullRequests\Responses" />
+    <Folder Include="Contracts\PullRequests\Requests" />
+    <Folder Include="Models\Common" />
+    <Folder Include="Models\PullRequests" />
+    <Folder Include="Models\Repositories" />
+    <Folder Include="Contracts\Common\Requests" />
+    <Folder Include="Contracts\Common\Requests\Repositories" />
+    <Folder Include="Contracts\Common\Responses" />
+    <Folder Include="Contracts\Common\Responses\Repositories" />
+    <Folder Include="Contracts\Repositories" />
+    <Folder Include="Contracts\Repositories\Responses" />
+    <Folder Include="Contracts\Repositories\Requests" />
+    <Folder Include="Contracts\Users" />
+    <Folder Include="Contracts\Users\Responses" />
+    <Folder Include="Models" />
+    <Folder Include="Exceptions" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
