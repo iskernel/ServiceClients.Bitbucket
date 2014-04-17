@@ -1,5 +1,6 @@
 ﻿using System;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests;
+using IsKernel.ServiceClients.Bitbucket.Exceptions;
 using IsKernel.ServiceClients.Bitbucket.Models.Common;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests.PullRequests

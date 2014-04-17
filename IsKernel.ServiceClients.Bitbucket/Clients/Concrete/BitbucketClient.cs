@@ -11,6 +11,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			RepositoryClient = new BitbucketRepositoryClient(client);
 		}
 		
-		public IBitbucketRepositoryClient RepositoryClient {get;}
+		public IBitbucketRepositoryClient RepositoryClient {get; private set;}
 	}
 }
