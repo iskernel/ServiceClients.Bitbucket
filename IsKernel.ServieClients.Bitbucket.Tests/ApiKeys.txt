@@ -1,0 +1,22 @@
+﻿/*
+ * Created by SharpDevelop.
+ * User: Bogdan
+ * Date: 4/18/2014
+ * Time: 1:22 AM
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
+using System;
+
+namespace IsKernel.ServieClients.Bitbucket.Tests
+{
+	/// <summary>
+	/// Description of ApiKeys.
+	/// </summary>
+	public class ApiKeys
+	{
+		public ApiKeys()
+		{
+		}
+	}
+}

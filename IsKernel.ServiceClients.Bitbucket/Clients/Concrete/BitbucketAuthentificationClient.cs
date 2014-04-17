@@ -22,9 +22,9 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			_secretKey = secretApiKey.ToSecureString();
 			_authentificator = new SimpleAuthenticator(API_KEY_NAME, _key.ConvertToUnsecureString(),
 													   API_KEY_SECRET, _secretKey.ConvertToUnsecureString());
-			Client = new BitbucketClient(_authentificator);
+			BitbucketClient = new BitbucketClient(_authentificator);
 		}
 				
-		public IBitbucketClient Client {get;set;}
+		public IBitbucketClient BitbucketClient {get;set;}
 	}
 }

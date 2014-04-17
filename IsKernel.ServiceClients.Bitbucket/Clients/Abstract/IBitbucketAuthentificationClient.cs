@@ -4,6 +4,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 {
 	public interface IBitbucketAuthentificationClient
 	{
-		IBitbucketClient Client {get;}
+		IBitbucketClient BitbucketClient {get;}
 	}
 }

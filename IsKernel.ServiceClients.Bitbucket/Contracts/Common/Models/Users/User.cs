@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace IsKernel.ServiceClients.Bitbucket.Contracts.Users.Responses
+namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users
 {
 	public class User
 	{

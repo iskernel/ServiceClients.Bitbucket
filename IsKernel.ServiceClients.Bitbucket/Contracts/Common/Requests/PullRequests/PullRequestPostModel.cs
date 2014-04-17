@@ -1,8 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Branches;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Users.Responses;
-using IsKernel.ServiceClients.Bitbucket.Models.Common;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests.PullRequests
 {

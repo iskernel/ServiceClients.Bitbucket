@@ -51,7 +51,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApiKeys.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IsKernel.ServiceClients.Bitbucket\IsKernel.ServiceClients.Bitbucket.csproj">
+      <Project>{05FB9117-C219-40EF-B850-108512A7B217}</Project>
+      <Name>IsKernel.ServiceClients.Bitbucket</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

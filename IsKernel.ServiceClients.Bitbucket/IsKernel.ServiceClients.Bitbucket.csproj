@@ -74,6 +74,8 @@
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequestComment.cs" />
     <Compile Include="Contracts\Common\Models\Users\Author.cs" />
     <Compile Include="Contracts\Common\Models\Users\Participant.cs" />
+    <Compile Include="Contracts\Common\Models\Users\User.cs" />
+    <Compile Include="Contracts\Common\Models\Users\UserLinks.cs" />
     <Compile Include="Contracts\Common\Requests\PullRequests\PullRequestGetBase.cs" />
     <Compile Include="Contracts\Common\Requests\PullRequests\PullRequestModelBase.cs" />
     <Compile Include="Contracts\Common\Requests\PullRequests\PullRequestPostModel.cs" />
@@ -82,8 +84,6 @@
     <Compile Include="Contracts\Common\Responses\PaginatedResponse.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequest.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequestLinks.cs" />
-    <Compile Include="Contracts\Common\Responses\Repositories\RepositoriesPaginatedResponse.cs" />
-    <Compile Include="Contracts\Common\Responses\Users\UsersPaginatedResponse.cs" />
     <Compile Include="Contracts\PullRequests\Requests\PullRequestDeleteApprovalRequest.cs" />
     <Compile Include="Contracts\PullRequests\Requests\PullRequestGetCommitsForPullRequest.cs" />
     <Compile Include="Contracts\PullRequests\Requests\PullRequestGetDiff.cs" />
@@ -96,9 +96,8 @@
     <Compile Include="Contracts\PullRequests\Requests\PullRequestsGetByStateRequest.cs" />
     <Compile Include="Contracts\PullRequests\Responses\PullRequestsListResponse.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryBaseRequest.cs" />
-    <Compile Include="Contracts\Repositories\Requests\RepositoryPostOptionalParametersModel.cs" />
+    <Compile Include="Contracts\Repositories\Requests\RepositoryAddOptionalParametersModel.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryRequest.cs" />
-    <Compile Include="Contracts\Repositories\Responses\RepositoryResponse.cs" />
     <Compile Include="Exceptions\BitbucketException.cs" />
     <Compile Include="Exceptions\RequestParameterException.cs" />
     <Compile Include="Infrastructure\SecureStringExtensions.cs" />
@@ -116,13 +115,6 @@
     <Compile Include="Contracts\Common\Models\Repositories\Repository.cs" />
     <Compile Include="Contracts\Common\Models\Repositories\RepositoryLinks.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryPostRequest.cs" />
-    <Compile Include="Contracts\Repositories\Responses\RepositoryForksResponse.cs" />
-    <Compile Include="Contracts\Repositories\Responses\RepositoryGetResponse.cs" />
-    <Compile Include="Contracts\Repositories\Responses\RepositoryWatchersResponse.cs" />
-    <Compile Include="Contracts\Users\Responses\FollowersList.cs" />
-    <Compile Include="Contracts\Users\Responses\FollowingList.cs" />
-    <Compile Include="Contracts\Users\Responses\User.cs" />
-    <Compile Include="Contracts\Users\Responses\UserLinks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,8 +129,6 @@
     <Folder Include="Contracts\Common\Models\Branches" />
     <Folder Include="Contracts\Common\Models\Users" />
     <Folder Include="Contracts\Common\Requests\PullRequests" />
-    <Folder Include="Contracts\Common\Responses\Repositories" />
-    <Folder Include="Contracts\Common\Responses\Users" />
     <Folder Include="Contracts\Common\Models\Other" />
     <Folder Include="Contracts\Common\Models\PullRequests" />
     <Folder Include="Contracts\Commits" />

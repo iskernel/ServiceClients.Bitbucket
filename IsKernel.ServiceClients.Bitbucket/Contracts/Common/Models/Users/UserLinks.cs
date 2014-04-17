@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Other;
 
-namespace IsKernel.ServiceClients.Bitbucket.Contracts.Users.Responses
+namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users
 {
 	public class UserLinks : SelfAndAvatarLinks
 	{

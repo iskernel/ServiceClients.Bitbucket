@@ -5,16 +5,16 @@ using IsKernel.ServiceClients.Bitbucket.Models.Repositories;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests
 {
-	public class RepositoryPostOptionalParametersModel : BitbucketJsonModel
+	public class RepositoryAddOptionalParametersModel : BitbucketJsonModel
 	{
-		public RepositoryPostOptionalParametersModel(Scm scm, ForkingPolicy forkingPolicy, bool isPrivate)
+		public RepositoryAddOptionalParametersModel(Scm scm, ForkingPolicy forkingPolicy, bool isPrivate)
 		{
 			Scm = scm.Value;
 			IsPrivate = isPrivate;
 			ForkPolicy = forkingPolicy.Value;
 		}
 		
-		public RepositoryPostOptionalParametersModel(string name, Scm scm, ForkingPolicy forkingPolicy, bool isPrivate, 
+		public RepositoryAddOptionalParametersModel(string name, Scm scm, ForkingPolicy forkingPolicy, bool isPrivate, 
 												     string language, bool hasIssues, bool hasWiki)
 			:this(scm, forkingPolicy, isPrivate)
 		{
