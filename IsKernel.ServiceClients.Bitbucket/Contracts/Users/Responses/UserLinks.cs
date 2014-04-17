@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Responses.Other;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Other;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Users.Responses
 {
