@@ -5,7 +5,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users
 {
 	public class User
 	{
-        [JsonProperty("username")]
+    [JsonProperty("username")]
 		public string Username {get;set;}
         
 		[JsonProperty("website")]

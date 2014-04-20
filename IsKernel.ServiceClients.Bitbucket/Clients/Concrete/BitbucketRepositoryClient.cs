@@ -36,7 +36,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			request.AddUrlSegment(OWNER_SEGMENT, owner);
 			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
 			request.Method = Method.GET;
-			
 			_client.ExecuteAsync(request, response => {
 				try
 				{
