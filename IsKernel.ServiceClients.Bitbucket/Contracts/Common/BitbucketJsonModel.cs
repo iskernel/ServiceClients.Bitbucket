@@ -7,7 +7,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common
 	{
 		public string ToJson()
 		{
-			var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+			var jsonSerializerSettings = new JsonSerializerSettings()
+			{
+				Formatting = Formatting.Indented,
+				NullValueHandling = NullValueHandling.Ignore
+			};
+			var jsonString = JsonConvert.SerializeObject(this, jsonSerializerSettings);
 			return jsonString;
 		}
 	}

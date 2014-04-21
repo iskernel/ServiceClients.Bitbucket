@@ -1,4 +1,5 @@
 ﻿using System;
+using IsKernel.ServiceClients.Bitbucket.Exceptions;
 using IsKernel.ServiceClients.Bitbucket.Models.Common;
 
 namespace IsKernel.ServiceClients.Bitbucket.Models.Repositories
@@ -12,5 +13,23 @@ namespace IsKernel.ServiceClients.Bitbucket.Models.Repositories
 		
 		public static readonly Scm Git = new Scm("git");
 		public static readonly Scm Hg = new Scm("hg");
+		
+		public static Scm FromString(string value)
+		{
+			var result = Scm.Git;
+			if(value == "git")
+			{
+				result = Scm.Git;
+			}
+			else if(value == "hg")
+			{
+				result = Scm.Hg;
+			}
+			else
+			{
+				throw new BitbucketException(value + " is an unknown value");
+			}
+			return result;
+		}
 	}
 }

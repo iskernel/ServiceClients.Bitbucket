@@ -5,36 +5,37 @@ using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Repositories;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Responses;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests;
 using IsKernel.ServiceClients.Bitbucket.Exceptions;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {	
-	public class BitbucketRepositoryClient : IBitbucketRepositoryClient
+	public class BitbucketRepositoryClient : BitbucketClientBase, IBitbucketRepositoryClient
 	{
 		private const string OWNER_SEGMENT = "owner";
 		private const string REPO_SLUG_SEGMENT = "repo_slug";
 		
-		private const string REPOSITORY_URL = "https://api.bitbucket.org/2.0/repositories";
-		private const string DEFAULT_REPOSITORY_RESOURCE = @"/{owner}/{repo_slug}";
-		private const string WATCHERS_REPOSITORY_RESOURCE = DEFAULT_REPOSITORY_RESOURCE + @"/watchers";
+		private const string REPOSITORY_BASE_URL = "https://api.bitbucket.org/2.0/repositories";
+		private const string DEFAULT_SPECIFIC_REPOSITORY_RESOURCE = @"/{owner}/{repo_slug}";
+		private const string DEFAULT_OWNER_RESOURCE = @"/{owner}";
+		private const string WATCHERS_REPOSITORY_RESOURCE = DEFAULT_SPECIFIC_REPOSITORY_RESOURCE + @"/watchers";
 		
-		private readonly RestClient _client;
-		
-		public BitbucketRepositoryClient(IAuthenticator authentificator)
+				
+		public BitbucketRepositoryClient(IAuthenticator authentificator) : base(authentificator, REPOSITORY_BASE_URL)
 		{
-			_client = new RestClient(REPOSITORY_URL);
-			_client.Authenticator = authentificator;
+			
 		}
 		
 		public Task<Repository> GetRepositoryAsync(string owner, string reposlug)
 		{
 			var taskCompletionSource = new TaskCompletionSource<Repository>();
 			
-			var request = new RestRequest(DEFAULT_REPOSITORY_RESOURCE);
+			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE);
 			request.AddUrlSegment(OWNER_SEGMENT, owner);
 			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
+			
 			request.Method = Method.GET;
 			_client.ExecuteAsync(request, response => {
 				try
@@ -55,13 +56,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		public Task<bool> CreateRepositoryAsync(string owner, string reposlug, RepositoryAddOptionalParametersModel optional)
 		{
 			var taskCompletionSource = new TaskCompletionSource<bool>();
+			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE, Method.POST);
 			
-			var request = new RestRequest(DEFAULT_REPOSITORY_RESOURCE);
 			request.AddUrlSegment(OWNER_SEGMENT, owner);
 			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.Method = Method.POST;
-			var json = optional.ToJson();
-			request.AddParameter("text/json", json, ParameterType.RequestBody);
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody(optional);
 			
 			_client.ExecuteAsync(request, response => {
 				try
@@ -82,7 +82,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		{
 			var taskCompletionSource = new TaskCompletionSource<bool>();
 			
-			var request = new RestRequest(DEFAULT_REPOSITORY_RESOURCE);
+			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE);
 			request.AddUrlSegment(OWNER_SEGMENT, owner);
 			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
 			request.Method = Method.DELETE;
@@ -102,19 +102,21 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			return taskCompletionSource.Task;			
 		}
 		
-		public Task<GenericPaginatedResponse<User>> GetRepositoryWatchersAsync(string owner, string reposlug)
+		public Task<PaginatedResponse<User>> GetRepositoryWatchersAsync(string owner, string reposlug, 
+																		PaginatedRequest paginatedRequest)
 		{
-			var taskCompletionSource = new TaskCompletionSource<GenericPaginatedResponse<User>>();
+			var taskCompletionSource = new TaskCompletionSource<PaginatedResponse<User>>();
 			
 			var request = new RestRequest(WATCHERS_REPOSITORY_RESOURCE);
 			request.AddUrlSegment(OWNER_SEGMENT, owner);
 			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
+			request = AddPaginationParameters(request, paginatedRequest);
 			request.Method = Method.GET;
 			
 			_client.ExecuteAsync(request, response => {
 				try
 				{
-					var list = JsonConvert.DeserializeObject<GenericPaginatedResponse<User>>(response.Content);
+					var list = JsonConvert.DeserializeObject<PaginatedResponse<User>>(response.Content);
 					taskCompletionSource.SetResult(list);
 				}
 				catch(Exception exception)
@@ -127,19 +129,21 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			return taskCompletionSource.Task;		
 		}
 		
-		public Task<GenericPaginatedResponse<Repository>> GetRepositoryForksAsync(string owner, string reposlug)
+		public Task<PaginatedResponse<Repository>> GetAllRepositoryForksAsync(string owner, string reposlug, 																		
+																		      PaginatedRequest paginatedRequest)
 		{
-			var taskCompletionSource = new TaskCompletionSource<GenericPaginatedResponse<Repository>>();
+			var taskCompletionSource = new TaskCompletionSource<PaginatedResponse<Repository>>();
 			
 			var request = new RestRequest(WATCHERS_REPOSITORY_RESOURCE);
 			request.AddUrlSegment(OWNER_SEGMENT, owner);
 			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
+			request = AddPaginationParameters(request, paginatedRequest);
 			request.Method = Method.GET;
 			
 			_client.ExecuteAsync(request, response => {
 				try
 				{
-					var list = JsonConvert.DeserializeObject<GenericPaginatedResponse<Repository>>(response.Content);
+					var list = JsonConvert.DeserializeObject<PaginatedResponse<Repository>>(response.Content);
 					taskCompletionSource.SetResult(list);
 				}
 				catch(Exception exception)
@@ -151,7 +155,52 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			});			
 			return taskCompletionSource.Task;		
 		}
+				
+		public Task<PaginatedResponse<Repository>> GetAllRepositoriesForUserAsync(string owner, PaginatedRequest paginatedRequest)
+		{
+			var taskCompletionSource = new TaskCompletionSource<PaginatedResponse<Repository>>();
+			var request = new RestRequest(DEFAULT_OWNER_RESOURCE);
+			request.AddUrlSegment(OWNER_SEGMENT, owner);
+			request = AddPaginationParameters(request, paginatedRequest);
+			request.Method = Method.GET;
+			
+			_client.ExecuteAsync(request, response => {
+				try
+				{
+					var list = JsonConvert.DeserializeObject<PaginatedResponse<Repository>>(response.Content);
+					taskCompletionSource.SetResult(list);
+				}
+				catch(Exception exception)
+				{
+					var bitbucketException = new BitbucketException("Could not retrieve repositories.", exception);
+					taskCompletionSource.SetException(bitbucketException);
+				}
+
+			});			
+			return taskCompletionSource.Task;	
+		}
 		
-		
+		public Task<PaginatedResponse<Repository>> GetAllPublicRepositoriesAsync(PaginatedRequest paginatedRequest)
+		{
+			var taskCompletionSource = new TaskCompletionSource<PaginatedResponse<Repository>>();
+			var request = new RestRequest(REPOSITORY_BASE_URL);
+			request = AddPaginationParameters(request, paginatedRequest);
+			request.Method = Method.GET;
+			
+			_client.ExecuteAsync(request, response => {
+				try
+				{
+					var list = JsonConvert.DeserializeObject<PaginatedResponse<Repository>>(response.Content);
+					taskCompletionSource.SetResult(list);
+				}
+				catch(Exception exception)
+				{
+					var bitbucketException = new BitbucketException("Could not retrieve repositories.", exception);
+					taskCompletionSource.SetException(bitbucketException);
+				}
+
+			});			
+			return taskCompletionSource.Task;	
+		}
 	}
 }

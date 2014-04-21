@@ -9,7 +9,7 @@ using IsKernel.ServiceClients.Bitbucket.Exceptions;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
-	public class BitbucketAuthentificationClient : IBitbucketAuthentificationClient
+	public class BitbucketAuthenticationClient : IBitbucketAuthenticationClient
 	{
 		private const string AUTHENTIFICATION_URL = "https://bitbucket.org/api/1.0/";
 	
@@ -20,7 +20,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		private string _oauthTokenForAccess;
 		private string _oauthTokenSecretForAccess;
 		
-		public BitbucketAuthentificationClient(string apiKey, string secretApiKey)
+		public BitbucketAuthenticationClient(string apiKey, string secretApiKey)
 		{
 			_key = apiKey;
 			_secretKey = secretApiKey;

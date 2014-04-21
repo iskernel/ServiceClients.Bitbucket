@@ -53,11 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\Abstract\IBitbucketAuthentificationClient.cs" />
+    <Compile Include="Clients\Abstract\IBitbucketAuthenticationClient.cs" />
     <Compile Include="Clients\Abstract\IBitbucketClient.cs" />
     <Compile Include="Clients\Abstract\IBitbucketRepositoryClient.cs" />
-    <Compile Include="Clients\Concrete\BitbucketAuthentificationClient.cs" />
+    <Compile Include="Clients\Concrete\BitbucketAuthenticationClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketClient.cs" />
+    <Compile Include="Clients\Concrete\BitbucketClientBase.cs" />
     <Compile Include="Clients\Concrete\BitbucketRepositoryClient.cs" />
     <Compile Include="Contracts\Common\BitbucketJsonModel.cs" />
     <Compile Include="Contracts\Common\Models\Branches\Branch.cs" />
@@ -83,8 +84,8 @@
     <Compile Include="Contracts\Common\Requests\PullRequests\PullRequestModelBase.cs" />
     <Compile Include="Contracts\Common\Requests\PullRequests\PullRequestPostModel.cs" />
     <Compile Include="Contracts\Common\Requests\PullRequests\PullRequestPutModel.cs" />
-    <Compile Include="Contracts\Common\Responses\GenericPaginatedResponse.cs" />
     <Compile Include="Contracts\Common\Responses\PaginatedResponse.cs" />
+    <Compile Include="Contracts\Common\Responses\PaginatedResponseBase.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequest.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequestLinks.cs" />
     <Compile Include="Contracts\PullRequests\Requests\PullRequestDeleteApprovalRequest.cs" />
@@ -113,8 +114,6 @@
     <Compile Include="Models\Repositories\ForkingPolicy.cs" />
     <Compile Include="Models\Repositories\Scm.cs" />
     <Compile Include="Contracts\Common\Requests\PaginatedRequest.cs" />
-    <Compile Include="Contracts\Common\Models\Repositories\ParentRepository.cs" />
-    <Compile Include="Contracts\Common\Models\Repositories\ParentRepositoryLinks.cs" />
     <Compile Include="Contracts\Common\Models\Repositories\Repository.cs" />
     <Compile Include="Contracts\Common\Models\Repositories\RepositoryLinks.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryPostRequest.cs" />

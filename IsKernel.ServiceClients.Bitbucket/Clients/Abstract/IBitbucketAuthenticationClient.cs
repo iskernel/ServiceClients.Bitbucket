@@ -5,7 +5,7 @@ using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 {
-	public interface IBitbucketAuthentificationClient
+	public interface IBitbucketAuthenticationClient
 	{
 		Task<Uri> RequestTokenAsync(string callbackUrl = "oob");
 		Task<IBitbucketClient> AuthentificateAsync(string verifier);

@@ -25,7 +25,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Repositories
 		public string Language {get;set;}
 		
 		[JsonProperty("parent")]
-		public ParentRepository Parent {get;set;}
+		public Repository Parent {get;set;}
 		
 		[JsonProperty("full_name")]
 		public string FullName {get;set;}

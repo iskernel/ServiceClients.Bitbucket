@@ -3,7 +3,7 @@ using IsKernel.ServiceClients.Bitbucket.Models.Common;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests
 {
-	internal class PaginatedRequest
+	public class PaginatedRequest
 	{
 		private readonly RequestParameter<int> _pageLength;
 		private readonly RequestParameter<int> _page;

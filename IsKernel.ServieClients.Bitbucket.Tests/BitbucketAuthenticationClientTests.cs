@@ -9,9 +9,9 @@ using NUnit.Framework;
 namespace IsKernel.ServieClients.Bitbucket.Tests
 {
 	[TestFixture]
-	public class BitbucketAuthentificationClientTests
+	public class BitbucketAuthenticationClientTests
 	{
-		private IBitbucketAuthentificationClient _client;
+		private IBitbucketAuthenticationClient _client;
 		private string _username;
 		private string _password;
 		private string _token;
@@ -30,7 +30,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 			_tokenSecret = keys[3];
 			_username = keys[4];
 			_password = keys[5];
-			_client = new BitbucketAuthentificationClient(apiKey, apiSecretKey);
+			_client = new BitbucketAuthenticationClient(apiKey, apiSecretKey);
 		}
 		
 		[Test]
