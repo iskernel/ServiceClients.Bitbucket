@@ -16,8 +16,8 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		
 		protected RestRequest AddPaginationParameters(RestRequest request, PaginatedRequest paginationRequest)
 		{
-			request.AddParameter("pagelen", paginationRequest.PageLength);
-			request.AddParameter("page", paginationRequest.Page);
+			request.AddParameter(paginationRequest.PageLength.Name, paginationRequest.PageLength.Value);
+			request.AddParameter(paginationRequest.Page.Name, paginationRequest.Page.Value);
 			return request;
 		}
 	}

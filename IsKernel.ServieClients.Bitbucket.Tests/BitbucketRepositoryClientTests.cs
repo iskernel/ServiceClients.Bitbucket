@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Clients.Concrete;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests;
 using IsKernel.ServiceClients.Bitbucket.Models.Repositories;
 using NUnit.Framework;
@@ -84,9 +85,43 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 				Language = "c"
 			};			
 			var createResult = _client.RepositoryClient.CreateRepositoryAsync(_defaultUser, _defaultRepository, parameters).Result;
-			var repository = _client.RepositoryClient.GetRepositoryAsync(_defaultUser, _defaultRepository).Result;
 			var deleteResult = _client.RepositoryClient.DeleteRepositoryAsync(_defaultUser, _defaultRepository).Result;
 			Assert.IsTrue(deleteResult);
+		}
+		
+		[Test]
+		public void GetRepositoryWatchersAsync_ReadWatchers_WatchersAreRetrieved()
+		{
+			var paginatedRequest = new PaginatedRequest(10, 1);
+			var users = _client.RepositoryClient.GetRepositoryWatchersAsync("tutorials", "tutorials.bitbucket.org", 
+																			paginatedRequest).Result;
+			Assert.IsNotNull(users);
+		}
+		
+		[Test]
+		public void GetAllRepositoryForkForAsync_GetForks_ForksAreRetrieved()
+		{
+			var paginatedRequest = new PaginatedRequest(10, 1);
+			var forks = _client.RepositoryClient.GetAllRepositoryForksAsync("tutorials", "tutorials.bitbucket.org", 
+																			paginatedRequest).Result;
+			Assert.IsNotNull(forks);
+		}
+		
+		[Test]
+		public void GetAllRepositoriesForUserAsync_GetRepositories_RepositoriesAreRetrieved()
+		{
+			var paginatedRequest = new PaginatedRequest(10, 1);
+			var repositories = _client.RepositoryClient.GetAllRepositoriesForUserAsync("tutorials", 
+																			           paginatedRequest).Result;
+			Assert.IsNotNull(repositories);
+		}
+		
+		[Test]
+		public void GetAllPublicRepositoriesAsync_GetRepositories_RepositoriesAreRetrieved()
+		{
+			var paginatedRequest = new PaginatedRequest(10, 1);
+			var repositories = _client.RepositoryClient.GetAllPublicRepositoriesAsync(paginatedRequest).Result;
+			Assert.IsNotNull(repositories);
 		}
 	}
 }

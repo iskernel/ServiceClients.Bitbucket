@@ -56,9 +56,11 @@
     <Compile Include="Clients\Abstract\IBitbucketAuthenticationClient.cs" />
     <Compile Include="Clients\Abstract\IBitbucketClient.cs" />
     <Compile Include="Clients\Abstract\IBitbucketRepositoryClient.cs" />
+    <Compile Include="Clients\Abstract\IBitbucketPullRequestClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketAuthenticationClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketClientBase.cs" />
+    <Compile Include="Clients\Concrete\BitbucketPullRequestClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketRepositoryClient.cs" />
     <Compile Include="Contracts\Common\BitbucketJsonModel.cs" />
     <Compile Include="Contracts\Common\Models\Branches\Branch.cs" />
