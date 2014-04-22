@@ -1,11 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Commits;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.PullRequests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Other
 {
-	public class UpdateStatus
+	public class Activity
 	{
 		[JsonProperty("status")]
 		public string Status {get;set;}
@@ -30,5 +31,14 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Other
 		
 		[JsonProperty("date")]
 		public DateTime? Date {get;set;}
+		
+		[JsonProperty("state")]
+		public string State {get;set;}
+		
+		[JsonProperty("comment")]
+		public Comment Comment {get;set;}
+		
+		[JsonProperty("pull_request")]
+		public PullRequest PullRequest {get;set;}
 	}
 }

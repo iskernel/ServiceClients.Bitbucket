@@ -76,7 +76,7 @@
     <Compile Include="Contracts\Common\Models\Other\LinksBase.cs" />
     <Compile Include="Contracts\Common\Models\Other\SelfAndAvatarLinks.cs" />
     <Compile Include="Contracts\Common\Models\Other\NamedLink.cs" />
-    <Compile Include="Contracts\Common\Models\Other\UpdateStatus.cs" />
+    <Compile Include="Contracts\Common\Models\Other\Activity.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequestComment.cs" />
     <Compile Include="Contracts\Common\Models\Users\Author.cs" />
     <Compile Include="Contracts\Common\Models\Users\Participant.cs" />
@@ -90,17 +90,6 @@
     <Compile Include="Contracts\Common\Responses\PaginatedResponseBase.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequest.cs" />
     <Compile Include="Contracts\Common\Models\PullRequests\PullRequestLinks.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestDeleteApprovalRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestGetCommitsForPullRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestGetDiff.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestGetIndividualCommentRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestGetLogActivityRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestGetSpecific.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestPostApprovalRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestPostRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestPutRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Requests\PullRequestsGetByStateRequest.cs" />
-    <Compile Include="Contracts\PullRequests\Responses\PullRequestsListResponse.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryBaseRequest.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryAddOptionalParametersModel.cs" />
     <Compile Include="Contracts\Repositories\Requests\RepositoryRequest.cs" />
@@ -125,8 +114,6 @@
     <Folder Include="Clients\Abstract" />
     <Folder Include="Clients\Concrete" />
     <Folder Include="Contracts" />
-    <Folder Include="Contracts\Commits\Responses" />
-    <Folder Include="Contracts\Commits\Requests" />
     <Folder Include="Contracts\Common" />
     <Folder Include="Contracts\Common\Models" />
     <Folder Include="Contracts\Common\Models\Commits" />
@@ -135,11 +122,6 @@
     <Folder Include="Contracts\Common\Requests\PullRequests" />
     <Folder Include="Contracts\Common\Models\Other" />
     <Folder Include="Contracts\Common\Models\PullRequests" />
-    <Folder Include="Contracts\Commits" />
-    <Folder Include="Contracts\Authentification" />
-    <Folder Include="Contracts\PullRequests" />
-    <Folder Include="Contracts\PullRequests\Responses" />
-    <Folder Include="Contracts\PullRequests\Requests" />
     <Folder Include="Models\Common" />
     <Folder Include="Models\PullRequests" />
     <Folder Include="Models\Repositories" />

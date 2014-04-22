@@ -52,8 +52,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.PullRequests
 		[JsonProperty("participants")]
 		public Participant[] Participants {get;set;}
 		
-		//TODO Figure what kind of object this is
 		[JsonProperty("merge_commit")]
-		public object MergeCommit {get;set;}
+		public Commit MergeCommit {get;set;}
 	}
 }
