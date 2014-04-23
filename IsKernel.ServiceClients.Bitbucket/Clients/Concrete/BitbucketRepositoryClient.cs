@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Repositories;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Responses;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 using IsKernel.ServiceClients.Bitbucket.Exceptions;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
@@ -51,7 +51,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			return taskCompletionSource.Task;			
 		}
 		
-		public Task<bool> CreateRepositoryAsync(string owner, string reposlug, RepositoryAddOptionalParametersModel optional)
+		public Task<bool> CreateRepositoryAsync(string owner, string reposlug, RepositoryCreateOptionalParameters optional)
 		{
 			var taskCompletionSource = new TaskCompletionSource<bool>();
 			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE, Method.POST);

@@ -3,9 +3,8 @@ using System.IO;
 using System.Linq;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Clients.Concrete;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests;
-using IsKernel.ServiceClients.Bitbucket.Models.Repositories;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using NUnit.Framework;
 
 namespace IsKernel.ServieClients.Bitbucket.Tests
@@ -62,7 +61,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 		[Test]
 		public void CreateRepositoryAsync_CreateARepository_RepositoryIsCreated()
 		{
-			var parameters = new RepositoryAddOptionalParametersModel(Scm.Hg, ForkingPolicy.NoForks, true)
+			var parameters = new RepositoryCreateOptionalParameters(Scm.Hg, ForkingPolicy.NoForks, true)
 			{
 				HasIssues = true,
 				HasWiki = true,
@@ -78,7 +77,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 		[Test]
 		public void DeleteRepositoryAsync_DeleteARepository_RepositoryIsDeleted()
 		{
-			var parameters = new RepositoryAddOptionalParametersModel(Scm.Hg, ForkingPolicy.NoForks, true)
+			var parameters = new RepositoryCreateOptionalParameters(Scm.Hg, ForkingPolicy.NoForks, true)
 			{
 				HasIssues = true,
 				HasWiki = true,

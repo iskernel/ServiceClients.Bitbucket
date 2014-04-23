@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Repositories;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Users;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Responses;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Requests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 {
@@ -24,7 +24,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 		/// <param name="reposlug">The reposlug (name) associated with the repository</param>
 		/// <param name="optional">Optional parameters for the creation of the repository</param>
 		/// <returns>True if the repository was created</returns>
-		Task<bool> CreateRepositoryAsync(string owner, string reposlug, RepositoryAddOptionalParametersModel optional);
+		Task<bool> CreateRepositoryAsync(string owner, string reposlug, RepositoryCreateOptionalParameters optional);
 		/// <summary>
 		/// Deletes an existing repository
 		/// </summary>

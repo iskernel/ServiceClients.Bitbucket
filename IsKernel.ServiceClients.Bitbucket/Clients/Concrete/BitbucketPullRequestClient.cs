@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Commits;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.Other;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Models.PullRequests;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Responses;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Commits;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Other;
+using IsKernel.ServiceClients.Bitbucket.Contracts.PullRequests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.PullRequests.Parameters;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
 using IsKernel.ServiceClients.Bitbucket.Exceptions;
-using IsKernel.ServiceClients.Bitbucket.Models.Common;
-using IsKernel.ServiceClients.Bitbucket.Models.PullRequests;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {

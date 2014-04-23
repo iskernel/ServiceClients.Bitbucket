@@ -1,6 +1,6 @@
 ﻿using System;
 using RestSharp;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Common.Requests;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
