@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters
 {
-	public class RepositoryCreateOptionalParameters : BitbucketJsonModel
+	public class RepositoryCreateOptionalParameters : BitbucketModel
 	{
 		public RepositoryCreateOptionalParameters(Scm scm, ForkingPolicy forkingPolicy, bool isPrivate)
 		{

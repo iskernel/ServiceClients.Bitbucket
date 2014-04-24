@@ -5,7 +5,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.PullRequests
 {
-	public class PullRequest : BitbucketJsonModel
+	public class PullRequest : BitbucketModel
 	{
 		[JsonProperty("description")]
 		public string Description {get;set;}

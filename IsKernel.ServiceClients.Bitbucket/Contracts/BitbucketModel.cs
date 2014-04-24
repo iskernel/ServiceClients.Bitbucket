@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts
 {
-	public abstract class BitbucketJsonModel
+	public abstract class BitbucketModel
 	{
 		public string ToJson()
 		{

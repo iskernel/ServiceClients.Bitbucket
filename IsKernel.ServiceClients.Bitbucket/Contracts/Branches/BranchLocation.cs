@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 {
-	public class BranchLocation : BitbucketJsonModel
+	public class BranchLocation : BitbucketModel
 	{
 		[JsonProperty("repository")]
 		public Repository Repository {get;set;}

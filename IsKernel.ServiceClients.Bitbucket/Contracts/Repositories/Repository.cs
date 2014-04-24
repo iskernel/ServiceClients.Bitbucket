@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories
 {
-	public class Repository : BitbucketJsonModel
+	public class Repository : BitbucketModel
 	{
 		[JsonProperty("scm")]
 		public string SourceControl {get;set;}

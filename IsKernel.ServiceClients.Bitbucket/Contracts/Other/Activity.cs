@@ -6,7 +6,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 {
-	public class Activity
+	public class Activity : BitbucketModel
 	{
 		[JsonProperty("status")]
 		public string Status {get;set;}

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Responses
 {
-	public abstract class PaginatedResponseBase
+	public abstract class PaginatedResponseBase : BitbucketModel
 	{		
 		[JsonProperty("previous")]
 		public string PreviousPageUrl {get;set;}

@@ -5,7 +5,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 {
-	public class BranchRestriction
+	public class BranchRestriction : BitbucketModel
 	{
 		[JsonProperty("groups")]
 		public Group[] Groups {get;set;}

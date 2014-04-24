@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Other;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.PullRequests
 {
-	public class PullRequestComment
+	public class PullRequestComment : BitbucketModel
 	{
 		[JsonProperty("comment")]
 		public Comment Comment {get;set;}

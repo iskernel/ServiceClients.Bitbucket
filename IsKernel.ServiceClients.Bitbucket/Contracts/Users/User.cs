@@ -3,11 +3,14 @@ using Newtonsoft.Json;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Users
 {
-	public class User
+	public class User : BitbucketModel
 	{
-    [JsonProperty("username")]
+    	[JsonProperty("username")]
 		public string Username {get;set;}
         
+		[JsonProperty("kind")]
+		public string Kind {get;set;}
+		
 		[JsonProperty("website")]
 		public string Website {get;set;}
 		

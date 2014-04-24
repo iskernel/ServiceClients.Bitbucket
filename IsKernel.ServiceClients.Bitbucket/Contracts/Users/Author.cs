@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Users
 {
-	public class Author : BitbucketJsonModel
+	public class Author : BitbucketModel
 	{
 		[JsonProperty("raw")]
 		public string Raw {get;set;}

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 {
-	public class Content : BitbucketJsonModel
+	public class Content : BitbucketModel
 	{
 		[JsonProperty("raw")]
 		public string Raw {get;set;}

@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Users
 {
-	public class Participant : BitbucketJsonModel
+	public class Participant : BitbucketModel
 	{
 		[JsonProperty("role")]
 		public string Role {get;set;}

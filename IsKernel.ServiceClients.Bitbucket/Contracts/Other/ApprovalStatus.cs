@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 {
-	public class ApprovalStatus
+	public class ApprovalStatus : BitbucketModel
 	{
 		[JsonProperty("date")]
 		public DateTime? Date {get;set;}

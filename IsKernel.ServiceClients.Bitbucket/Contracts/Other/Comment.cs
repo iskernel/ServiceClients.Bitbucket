@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 {
-	public class Comment : BitbucketJsonModel
+	public class Comment : BitbucketModel
 	{
 		[JsonProperty("parent")]
 		public Comment Parent {get;set;}

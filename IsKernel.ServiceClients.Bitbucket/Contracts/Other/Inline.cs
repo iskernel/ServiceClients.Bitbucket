@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 {
-	public class Inline : BitbucketJsonModel
+	public class Inline : BitbucketModel
 	{
 		[JsonProperty("to")]
 		public long? To {get;set;}

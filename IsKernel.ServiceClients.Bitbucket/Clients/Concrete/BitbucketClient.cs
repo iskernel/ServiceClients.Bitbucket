@@ -18,5 +18,13 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		public IBitbucketPullRequestClient PullRequestClient {get; private set;}
 		
 		public IBitbucketCommitClient CommitClient {get; private set;}
+
+		public IBitbucketBranchRestrictionClient BranchRestrictionClient {get; private set;}
+		
+		public IBitbucketDiffClient DiffClient {get; private set;}
+	
+		public IBitbucketTeamClient TeamClient {get; private set;}
+	
+		public IBitbucketUserClient UserClient {get; private set;}
 	}
 }

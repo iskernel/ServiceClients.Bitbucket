@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 {
-	public class Group
+	public class Group : BitbucketModel
 	{
 		[JsonProperty("full_slug")]
 		public string FullSlug {get;set;}

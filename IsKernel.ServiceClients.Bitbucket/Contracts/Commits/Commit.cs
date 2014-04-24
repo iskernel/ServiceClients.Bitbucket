@@ -5,7 +5,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Commits
 {
-	public class Commit : BitbucketJsonModel
+	public class Commit : BitbucketModel
 	{
 		[JsonProperty("hash")]
 		public string Hash {get;set;}
