@@ -4,7 +4,7 @@ using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Clients.Concrete;
 
-public class BitbuckerDiffClient : BitbucketRepositoryClientBase, IBitbucketDiffClient
+public class BitbucketDiffClient : BitbucketRepositoryClientBase, IBitbucketDiffClient
 {
 	private const string SPEC_SEGMENT = "spec";
 	
@@ -12,7 +12,7 @@ public class BitbuckerDiffClient : BitbucketRepositoryClientBase, IBitbucketDiff
 	private const string DIFF_RESOURCE = "{owner}/{repo_slug}/diff/{spec}";
 	private const string PATCH_RESOURCE = "{owner}/{repo_slug}/patch/{spec}";
 	
-	public BitbuckerDiffClient(IAuthenticator authenticator) : base(authenticator, BASE_URL)
+	public BitbucketDiffClient(IAuthenticator authenticator) : base(authenticator, BASE_URL)
 	{
 		
 	}

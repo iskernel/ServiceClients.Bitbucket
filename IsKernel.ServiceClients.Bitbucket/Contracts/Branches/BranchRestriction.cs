@@ -17,7 +17,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 		public BranchRestrictionLinks Links {get;set;}
 		
 		[JsonProperty("kind")]
-		public string Type {get;set;}
+		public string Kind {get;set;}
 		
 		[JsonProperty("pattern")]
 		public string Pattern {get;set;}

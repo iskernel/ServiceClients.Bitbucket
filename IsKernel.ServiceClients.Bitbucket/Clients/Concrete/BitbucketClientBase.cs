@@ -49,11 +49,15 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 				}
 			}
 			_client.ExecuteAsync(request, response => {
-				try {
+				try 
+				{
+					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
+					System.Diagnostics.Debug.WriteLine(response.Content);
 					var result = JsonConvert.DeserializeObject<T>(response.Content);
 					taskCompletionSource.SetResult(result);
 				} 
-				catch (Exception exception) {
+				catch (Exception exception)
+				{
 					var bitbucketException = new BitbucketException(exceptionMessage, exception);
 					taskCompletionSource.SetException(bitbucketException);
 				}
@@ -65,7 +69,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 										  			 	  BitbucketModel model,										   	
 										   				  List<Tuple<string, string>> urlSegments = null, 
 										   				  List<Tuple<string, string>> parameters = null,
-										   				  string exceptionMessage = "")
+														  string exceptionMessage = "") 
 		{
 			var taskCompletionSource = new TaskCompletionSource<T>();
 			var request = new RestRequest(resourceUrl, Method.POST);
@@ -84,9 +88,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 				}
 			}
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody(model);
+			request.AddBody(model.ToJson());
 			_client.ExecuteAsync(request, response => {
-				try {
+				try
+				{
+					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
+					System.Diagnostics.Debug.WriteLine(response.Content);
 					var result = JsonConvert.DeserializeObject<T>(response.Content);
 					taskCompletionSource.SetResult(result);
 				} 
@@ -99,10 +106,10 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		}
 		
 		public Task<T> MakePutWithContentAsyncRequest<T>(string resourceUrl, 
-										  			 	  BitbucketModel model,										   	
-										   				  List<Tuple<string, string>> urlSegments = null, 
-										   				  List<Tuple<string, string>> parameters = null,
-										   				  string exceptionMessage = "")
+										  			 	 BitbucketModel model,										   	
+										   				 List<Tuple<string, string>> urlSegments = null, 
+										   				 List<Tuple<string, string>> parameters = null,
+										   				 string exceptionMessage = "")
 		{
 			var taskCompletionSource = new TaskCompletionSource<T>();
 			var request = new RestRequest(resourceUrl, Method.PUT);
@@ -121,9 +128,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 				}
 			}
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody(model);
+			request.AddBody(model.ToJson());
 			_client.ExecuteAsync(request, response => {
-				try {
+				try 
+				{
+					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
+					System.Diagnostics.Debug.WriteLine(response.Content);
 					var result = JsonConvert.DeserializeObject<T>(response.Content);
 					taskCompletionSource.SetResult(result);
 				} 

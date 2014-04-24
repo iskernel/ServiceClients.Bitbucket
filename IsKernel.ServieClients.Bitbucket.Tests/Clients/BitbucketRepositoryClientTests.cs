@@ -7,7 +7,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using NUnit.Framework;
 
-namespace IsKernel.ServieClients.Bitbucket.Tests
+namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 {
 	[TestFixture]
 	public class BitbucketRepositoryClientTests
@@ -22,6 +22,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 		private string _tokenSecret;
 		private string _defaultUser;
 		private string _defaultRepository;
+		private string _defaultRepositoryForGet;
 		private LastRunnedTest _lastTest;
 		
 		[SetUp]
@@ -40,6 +41,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 			_client = authClient.AuthentificateWithAccessToken(_token, _tokenSecret);
 			_defaultUser = "btaranu";
 			_defaultRepository = "testrepository";
+			_defaultRepositoryForGet = "ttftopng";
 		}
 		
 		[TearDown]
@@ -54,7 +56,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 		[Test]
 		public void GetRepositoryAsync_ReadARepository_RepositoryIsRetrieved()
 		{
-			var repository = _client.RepositoryClient.GetRepositoryAsync("btaranu", "ttftopng").Result;
+			var repository = _client.RepositoryClient.GetRepositoryAsync(_defaultUser, _defaultRepositoryForGet).Result;
 			Assert.IsNotNull(repository);
 		}
 		

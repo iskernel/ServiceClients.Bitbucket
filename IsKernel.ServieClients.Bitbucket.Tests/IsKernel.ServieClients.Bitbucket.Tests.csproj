@@ -47,8 +47,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitbucketAuthenticationClientTests.cs" />
-    <Compile Include="BitbucketRepositoryClientTests.cs" />
+    <Compile Include="Clients\BitbucketAuthenticationClientTests.cs" />
+    <Compile Include="Clients\BitbucketBranchRestrictionClientTests.cs" />
+    <Compile Include="Clients\BitbucketRepositoryClientTests.cs" />
+    <Compile Include="TestHelpers\AssertHelper.cs" />
+    <Compile Include="TestHelpers\BitbucketClientTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +65,10 @@
       <Project>{05FB9117-C219-40EF-B850-108512A7B217}</Project>
       <Name>IsKernel.ServiceClients.Bitbucket</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Clients" />
+    <Folder Include="TestHelpers" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

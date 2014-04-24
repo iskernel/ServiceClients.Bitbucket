@@ -6,7 +6,7 @@ using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Clients.Concrete;
 using NUnit.Framework;
 
-namespace IsKernel.ServieClients.Bitbucket.Tests
+namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 {
 	[TestFixture]
 	public class BitbucketAuthenticationClientTests
@@ -48,7 +48,6 @@ namespace IsKernel.ServieClients.Bitbucket.Tests
 			var uri = _client.RequestTokenAsync().Result;
 			var uriString = uri.ToString();
 			Process.Start(uriString);
-			//Put breakpoint here to add verifier
 			Console.WriteLine("Enter verifier: ");
 			var verifier = Console.ReadLine();
 			var client = _client.AuthentificateAsync(verifier).Result;

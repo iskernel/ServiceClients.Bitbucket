@@ -12,15 +12,12 @@ using IsKernel.ServiceClients.Bitbucket.Exceptions;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
-	public class BitbucketRepositoryClient : BitbucketClientBase, IBitbucketRepositoryClient
-	{
-		private const string OWNER_SEGMENT = "owner";
-		private const string REPO_SLUG_SEGMENT = "repo_slug";
-		
+	public class BitbucketRepositoryClient : BitbucketRepositoryClientBase, IBitbucketRepositoryClient
+	{		
 		private const string REPOSITORY_BASE_URL = "https://api.bitbucket.org/2.0/repositories";
 		private const string DEFAULT_SPECIFIC_REPOSITORY_RESOURCE = @"/{owner}/{repo_slug}";
 		private const string DEFAULT_OWNER_RESOURCE = @"/{owner}";
-		private const string WATCHERS_REPOSITORY_RESOURCE = DEFAULT_SPECIFIC_REPOSITORY_RESOURCE + @"/watchers";
+		private const string WATCHERS_REPOSITORY_RESOURCE = @"/{owner}/{repo_slug}/watchers";
 		
 				
 		public BitbucketRepositoryClient(IAuthenticator authentificator)
@@ -31,6 +28,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		
 		public Task<Repository> GetRepositoryAsync(string owner, string reposlug)
 		{
+			
 			var taskCompletionSource = new TaskCompletionSource<Repository>();
 			
 			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE);

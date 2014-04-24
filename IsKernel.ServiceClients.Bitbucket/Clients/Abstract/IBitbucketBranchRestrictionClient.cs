@@ -8,12 +8,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 {
 	public interface IBitbucketBranchRestrictionClient
 	{
-		Task<PaginatedResponse<BranchRestriction>> GetBranchRestrictionsForRepository(string owner, string reposlug, 
-																					  PaginatedRequest request);
-		Task<BranchRestriction> AddBranchRestriction(string owner, string reposlug, BranchRestriction restriction);
-		Task<BranchRestriction> GetBranchRestrictionsForRepository(string owner, string reposlug, string id);
-		Task<BranchRestriction> EditBranchRestrictionForRepository(string owner, string reposlug, string id, 
+		Task<PaginatedResponse<BranchRestriction>> GetAllAsync(string owner, string reposlug, 
+															   PaginatedRequest request);
+		Task<BranchRestriction> AddAsync(string owner, string reposlug, BranchRestriction restriction);
+		Task<BranchRestriction> GetAsync(string owner, string reposlug, string id);
+		Task<BranchRestriction> EditAsync(string owner, string reposlug, string id, 
 													 			   BranchRestriction restriction);
-		Task<string> DeleteBranchRestrictionsForRepository(string owner, string reposlug, string id);
+		Task<string> DeleteAsync(string owner, string reposlug, string id);
 	}
 }

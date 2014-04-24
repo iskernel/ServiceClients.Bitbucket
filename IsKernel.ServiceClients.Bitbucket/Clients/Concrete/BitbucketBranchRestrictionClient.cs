@@ -14,16 +14,16 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		private const string ID_SEGMENT = "id";
 		
 		private const string BASE_URL = "https://bitbucket.org/api/2.0/repositories/";
-		private const string BRANCH_RESTRICTIONS_RESOURCE = "/{owner}/{repo-slug}/branch-restrictions";
-		private const string SPECIFIED_RESTRICTION_RESOURCE = "/{owner}/{repo-slug}/branch-restrictions/{id}";
+		private const string BRANCH_RESTRICTIONS_RESOURCE = "/{owner}/{repo_slug}/branch-restrictions";
+		private const string SPECIFIED_RESTRICTION_RESOURCE = "/{owner}/{repo_slug}/branch-restrictions/{id}";
 		
 		public BitbucketBranchRestrictionClient(IAuthenticator authentificator) : base(authentificator,BASE_URL)
 		{
 			
 		}
 		
-		public Task<PaginatedResponse<BranchRestriction>> GetBranchRestrictionsForRepository(string owner, string reposlug, 
-																							 PaginatedRequest request)
+		public Task<PaginatedResponse<BranchRestriction>> GetAllAsync(string owner, string reposlug, 
+																	  PaginatedRequest request)
 		{
 			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
 			var parameters = request.ToTuples();
@@ -33,17 +33,17 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			return task;
 		}
 		
-		public Task<BranchRestriction> AddBranchRestriction(string owner, string reposlug, BranchRestriction restriction)
+		public Task<BranchRestriction> AddAsync(string owner, string reposlug, BranchRestriction restriction)
 		{
 			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
 			var task = MakePostWithContentAsyncRequest<BranchRestriction>(BRANCH_RESTRICTIONS_RESOURCE, restriction, 
 																		  urlSegments, null,
-													   					  "Could not add branch restriction");
+   					   													  "Could not add branch restriction");
 			return task;
 		}
 		
 		
-		public Task<BranchRestriction> GetBranchRestrictionsForRepository(string owner, string reposlug, string id)
+		public Task<BranchRestriction> GetAsync(string owner, string reposlug, string id)
 		{
 			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
 			urlSegments.Add(new Tuple<string, string>(ID_SEGMENT, id));
@@ -54,8 +54,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		}
 		
 		
-		public Task<BranchRestriction> EditBranchRestrictionForRepository(string owner, string reposlug, string id, 
-															 			  BranchRestriction restriction)
+		public Task<BranchRestriction> EditAsync(string owner, string reposlug, string id, BranchRestriction restriction)
 		{
 			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
 			urlSegments.Add(new Tuple<string, string>(ID_SEGMENT, id));
@@ -65,7 +64,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			return task;
 		}
 		
-		public Task<string> DeleteBranchRestrictionsForRepository(string owner, string reposlug, string id)
+		public Task<string> DeleteAsync(string owner, string reposlug, string id)
 		{
 			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
 			urlSegments.Add(new Tuple<string, string>(ID_SEGMENT, id));
