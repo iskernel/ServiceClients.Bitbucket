@@ -10,5 +10,11 @@ namespace IsKernel.ServiceClients.Bitbucket.Infrastructure
 		}
 				
 		public T Value {get;set;}
+		
+		public Tuple<string,string> ToTuple()
+		{
+			var tuple = new Tuple<string,string>(Name, Value.ToString());
+			return tuple;
+		}
 	}
 }

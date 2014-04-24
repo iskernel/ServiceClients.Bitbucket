@@ -12,5 +12,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 		[JsonProperty("user")]
 		public User User {get;set;}
 			
+		[JsonProperty("approved")]
+		public bool? Approved {get;set;}
 	}
 }

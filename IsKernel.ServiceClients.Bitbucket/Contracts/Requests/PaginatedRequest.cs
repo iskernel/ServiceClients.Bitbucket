@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Requests
@@ -29,6 +30,14 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Requests
 			{
 				return _page;
 			}
+		}
+		
+		public List<Tuple<string,string>> ToTuples()
+		{
+			var list = new List<Tuple<string,string>>();
+			list.Add(new Tuple<string, string>(PageLength.Name, PageLength.Value.ToString()));
+			list.Add(new Tuple<string, string>(Page.Name, Page.Value.ToString()));
+			return list;
 		}
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IsKernel.ServiceClients.Bitbucket.Infrastructure
 {
-	public class MultiValueRequestParameter<T> : RequestParameterBase where T : PrivateValueModel<string>
+	public class MultiValueRequestParameter<T> : RequestParameterBase
 	{		
 		public MultiValueRequestParameter(string name, IEnumerable<T> values) : base(name)
 		{
@@ -19,11 +19,17 @@ namespace IsKernel.ServiceClients.Bitbucket.Infrastructure
 				var parameterValue = string.Empty;
 				foreach (var element in Values) 
 				{
-					parameterValue += element.Value + "|";
+					parameterValue += element + "|";
 				}
 				parameterValue = parameterValue.Substring(0, parameterValue.Length - 1);
 				return parameterValue;
 			}			
+		}
+		
+		public Tuple<string,string> ToTuple()
+		{
+			var tuple = new Tuple<string,string>(Name, ParameterValue);
+			return tuple;
 		}
 	}
 }

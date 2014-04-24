@@ -64,12 +64,14 @@
     <Compile Include="Clients\Concrete\BitbucketCommitClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketPullRequestClient.cs" />
     <Compile Include="Clients\Concrete\BitbucketRepositoryClient.cs" />
+    <Compile Include="Clients\Concrete\BitbucketRepositoryClientBase.cs" />
     <Compile Include="Contracts\BitbucketJsonModel.cs" />
     <Compile Include="Contracts\Branches\Branch.cs" />
     <Compile Include="Contracts\Branches\BranchLocation.cs" />
     <Compile Include="Contracts\Commits\Commit.cs" />
     <Compile Include="Contracts\Commits\CommitLinks.cs" />
     <Compile Include="Contracts\Commits\CommitLocation.cs" />
+    <Compile Include="Contracts\Commits\Parameters\CommitGetOptionalParameters.cs" />
     <Compile Include="Contracts\Other\ApprovalStatus.cs" />
     <Compile Include="Contracts\Other\Comment.cs" />
     <Compile Include="Contracts\Other\Content.cs" />
@@ -111,6 +113,7 @@
     <Folder Include="Contracts" />
     <Folder Include="Contracts\Commits" />
     <Folder Include="Contracts\Branches" />
+    <Folder Include="Contracts\Commits\Parameters" />
     <Folder Include="Contracts\PullRequests\Parameters" />
     <Folder Include="Contracts\Repositories\Parameters" />
     <Folder Include="Contracts\Users" />

@@ -6,5 +6,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 	{
 		IBitbucketRepositoryClient RepositoryClient {get;}
 		IBitbucketPullRequestClient PullRequestClient {get;}
+		IBitbucketCommitClient CommitClient {get;}
 	}
 }

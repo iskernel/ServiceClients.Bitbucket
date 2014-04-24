@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using RestSharp;
+using IsKernel.ServiceClients.Bitbucket.Contracts;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
+using IsKernel.ServiceClients.Bitbucket.Exceptions;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
@@ -19,6 +24,41 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			request.AddParameter(paginationRequest.PageLength.Name, paginationRequest.PageLength.Value);
 			request.AddParameter(paginationRequest.Page.Name, paginationRequest.Page.Value);
 			return request;
+		}
+		
+		public Task<T> MakeAsyncRequest<T>(string resourceUrl, 
+										   Method method,
+										   List<Tuple<string, string>> urlSegments = null, 
+										   List<Tuple<string, string>> parameters = null,
+										   string exceptionMessage = "")
+		{
+			var taskCompletionSource = new TaskCompletionSource<T>();
+			var request = new RestRequest(resourceUrl, method);
+			if(urlSegments != null)
+			{
+				foreach (var element in urlSegments) 
+				{
+					request.AddUrlSegment(element.Item1, element.Item2);		
+				}
+			}
+			if(parameters != null)
+			{
+				foreach (var element in parameters) 
+				{
+					request.AddParameter(element.Item1, element.Item2);
+				}
+			}
+			_client.ExecuteAsync(request, response => {
+				try {
+					var result = JsonConvert.DeserializeObject<T>(response.Content);
+					taskCompletionSource.SetResult(result);
+				} 
+				catch (Exception exception) {
+					var bitbucketException = new BitbucketException(exceptionMessage, exception);
+					taskCompletionSource.SetException(bitbucketException);
+				}
+			});	
+			return taskCompletionSource.Task;	
 		}
 	}
 }
