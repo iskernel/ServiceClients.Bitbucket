@@ -8,13 +8,13 @@ See the reference at  [https://confluence.atlassian.com/display/BITBUCKET/Versio
 Status:
 
 - **Authentification** : Done, partially tested
-- **Repository resource** : Finished, partially tested
+- **Repository resource** : Done, partially tested
 - **Pull requests resource** : Finished, not tested
-- **Commit resource** : In development
-- **Branch-restrictions resource** : In development
-- **Diff resource** : In development
-- **Teams resource** : In development
-- **Users resource** : In development
+- **Commit resource** : Done, not tested
+- **Branch-restrictions resource** : Done, not tested
+- **Diff resource** : Done, not tested
+- **Teams resource** : Done, not tested
+- **Users resource** : Done, not tested
 
 Usage
 -
