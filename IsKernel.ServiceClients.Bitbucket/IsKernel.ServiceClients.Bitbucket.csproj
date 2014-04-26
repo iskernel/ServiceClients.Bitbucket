@@ -109,9 +109,6 @@
     <Compile Include="Contracts\PullRequests\PullRequestLinks.cs" />
     <Compile Include="Exceptions\BitbucketException.cs" />
     <Compile Include="Exceptions\RequestParameterException.cs" />
-    <Compile Include="Infrastructure\Extensions\NameValueCollectionExtensions.cs" />
-    <Compile Include="Infrastructure\Extensions\SecureStringExtensions.cs" />
-    <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
     <Compile Include="Infrastructure\MultiValueRequestParameter.cs" />
     <Compile Include="Infrastructure\ClassEnumBase.cs" />
     <Compile Include="Infrastructure\RequestParameter.cs" />
@@ -138,7 +135,6 @@
     <Folder Include="Contracts\Users" />
     <Folder Include="Contracts\Other" />
     <Folder Include="Contracts\PullRequests" />
-    <Folder Include="Infrastructure\Extensions" />
     <Folder Include="Contracts\Requests" />
     <Folder Include="Contracts\Responses" />
     <Folder Include="Contracts\Repositories" />

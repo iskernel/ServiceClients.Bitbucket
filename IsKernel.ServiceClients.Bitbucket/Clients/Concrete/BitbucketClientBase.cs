@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Contracts;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Exceptions;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
@@ -41,9 +43,10 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			{
 				foreach (var element in request.ExtraHeaders) 
 				{
-					restRequest.AddParameter(element.Key, element.Value);
+					restRequest.AddHeader(element.Key, element.Value);
 				}
 			}
+			
 			if(request.GetType() == typeof(RestComplexDataRequest))
 			{
 				var dataRequest = (request as RestComplexDataRequest);
@@ -54,13 +57,25 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 						if(dataRequest.ContentType == RestDataContentType.Json)
 						{
 							restRequest.RequestFormat = DataFormat.Json;
+							restRequest.AddBody(dataRequest.Content);
 						}
 						else if(dataRequest.ContentType == RestDataContentType.Xml)
 						{
 							restRequest.RequestFormat = DataFormat.Xml;
+							restRequest.AddBody(dataRequest.Content);
+						}
+						else if(dataRequest.ContentType == RestDataContentType.UrlEncode)
+						{
+							var content = (dataRequest.Content as Dictionary<string, string>);
+							restRequest.RequestFormat = DataFormat.Json;
+							foreach (var element in content)
+							{
+								restRequest.AddParameter(element.Key, element.Value, ParameterType.GetOrPost);
+							}							
+							restRequest.AddBody(dataRequest.Content);
 						}
 					}
-					restRequest.AddBody(dataRequest.Content);
+					
 				}
 			}
 			return restRequest;
@@ -68,17 +83,17 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		
 		private string CreateExceptionMessage(IRestResponse response)
 		{
-			string responseString = response.ResponseUri 
-									+ " " + response.ResponseStatus.ToString()
-									+ " " + response.Content;
+			string responseString = response.ResponseUri + Environment.NewLine 
+									+ " " + response.ResponseStatus.ToString() + Environment.NewLine
+									+ " " + response.Content + Environment.NewLine;
 			return responseString;
 		}
 		
 		private void MakeRequestCallAsync<T>(TaskCompletionSource<T> taskCompletionSource, RestRequest request)
-		{
+		{					
  			_client.ExecuteAsync(request, response => {
 				try 
-				{
+				{									
 					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
 					System.Diagnostics.Debug.WriteLine(response.Content);
 					var result = JsonConvert.DeserializeObject<T>(response.Content);

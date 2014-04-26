@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Branches;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Branches.Parameters;
@@ -43,12 +46,12 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void AddAsync_AddBranchRestriction_BranchIsRetrieved()
 		{
-			//TODO See why branch restriction post information is not ok
 			var branchRestriction = new BranchRestriction()
 			{
 				Kind = BranchRestrictionType.Delete.Value,
-				Pattern = ".*",
+				Pattern = "pattern",
 			};
+			
 			var result = _client.AddAsync(_defaultUser, _defaultRepository, branchRestriction).Result;
 			AssertHelper.AtLeastOnePropertyIsNotDefault<BranchRestriction>(result);
 		}
@@ -56,7 +59,6 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void DeleteAsync_DeleteBranchRestriction_BranchIsRetrieved()
 		{
-			//TODO See why branch restriction post information is not ok
 			var branchRestriction = new BranchRestriction()
 			{
 				Kind = BranchRestrictionType.Delete.Value,

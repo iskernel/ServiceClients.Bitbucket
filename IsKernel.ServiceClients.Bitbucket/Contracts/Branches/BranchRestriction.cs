@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using RestSharp.Contrib;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Other;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
-using IsKernel.ServiceClients.Bitbucket.Infrastructure.Extensions;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 {
@@ -28,20 +28,20 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 		[JsonProperty("users")]
 		public User[] Users {get;set;}
 		
-		public string CreatePostData()
+		public Dictionary<string,string> CreatePostData()
 		{
-			var query = HttpUtility.ParseQueryString(string.Empty);
+			var dictionary = new Dictionary<string,string>();
 			if(Id!=null)
 			{
-				query["id"] = Id.ToString();
+				dictionary.Add("id", Id.ToString());
 			}
 			if(Kind!=null)
 			{
-				query["kind"] = Kind;
+				dictionary.Add("kind", Kind.ToString());
 			}
 			if(Pattern!=null)
 			{
-				query["pattern"] = Pattern;
+				dictionary.Add("pattern", Pattern.ToString());
 			}
 			if(Users!=null)
 			{
@@ -52,10 +52,35 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 					builder.Append("|");	
 				}
 				var tempString = builder.ToString();
-				query["users"] = tempString.Substring(0, tempString.Length - 1);
+				dictionary.Add("users", tempString.Substring(0, tempString.Length - 1));
 			}
-			string queryString = query.ToPostData();
-			return queryString;
+			return dictionary;
+//			var query = HttpUtility.ParseQueryString(string.Empty);
+//			if(Id!=null)
+//			{
+//				query["id"] = Id.ToString();
+//			}
+//			if(Kind!=null)
+//			{
+//				query["kind"] = Kind;
+//			}
+//			if(Pattern!=null)
+//			{
+//				query["pattern"] = Pattern;
+//			}
+//			if(Users!=null)
+//			{
+//				var builder = new StringBuilder();
+//				foreach (var element in Users) 
+//				{
+//					builder.Append(element.Username);
+//					builder.Append("|");	
+//				}
+//				var tempString = builder.ToString();
+//				query["users"] = tempString.Substring(0, tempString.Length - 1);
+//			}
+//			string queryString = query.ToPostData();
+//			return queryString;
 		}
 	}
 }

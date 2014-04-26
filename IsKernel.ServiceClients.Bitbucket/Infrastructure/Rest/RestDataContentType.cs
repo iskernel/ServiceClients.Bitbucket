@@ -10,6 +10,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest
 		
 		public static RestDataContentType Xml = new RestDataContentType("xml");
 		public static RestDataContentType Json = new RestDataContentType("json");
-		public static RestDataContentType QueryString = new RestDataContentType("querystring");
+		public static RestDataContentType UrlEncode = new RestDataContentType("urlEncode");
 	}
 }

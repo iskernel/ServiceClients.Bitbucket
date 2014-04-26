@@ -35,11 +35,9 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		public Task<BranchRestriction> AddAsync(string owner, string reposlug, BranchRestriction restriction)
 		{
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
-			var extraHeaders = new Dictionary<string,string>();
-			extraHeaders.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 			var content = restriction.CreatePostData();
-			var restRequest = new RestComplexDataRequest(Method.GET, segments, null, extraHeaders, content, 
-														 RestDataContentType.QueryString);
+			var restRequest = new RestComplexDataRequest(Method.POST, segments, null, null, content, 
+														 RestDataContentType.UrlEncode);
 			var task = MakeAsyncRequest<BranchRestriction>(BRANCH_RESTRICTIONS_RESOURCE, restRequest);
 			return task;
 		}
@@ -59,11 +57,9 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		{
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			segments.Add(ID_SEGMENT, id);
-			var extraHeaders = new Dictionary<string,string>();
-			extraHeaders.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 			var content = restriction.CreatePostData();
-			var restRequest = new RestComplexDataRequest(Method.PUT, segments, null, extraHeaders, content, 
-														 RestDataContentType.QueryString);
+			var restRequest = new RestComplexDataRequest(Method.PUT, segments, null, null, content, 
+														  RestDataContentType.UrlEncode);
 			var task = MakeAsyncRequest<BranchRestriction>(SPECIFIED_RESTRICTION_RESOURCE, restRequest);
 			return task;
 		}

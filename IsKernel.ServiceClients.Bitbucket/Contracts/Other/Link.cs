@@ -7,5 +7,8 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Other
 	{
 		[JsonProperty("href")]
 		public string Href {get;set;}
+		
+		[JsonProperty("rel")]
+		public string Relation {get;set;}
 	}
 }

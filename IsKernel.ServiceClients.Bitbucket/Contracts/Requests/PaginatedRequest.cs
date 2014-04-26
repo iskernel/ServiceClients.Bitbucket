@@ -17,14 +17,14 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Requests
 
 		public PaginatedRequest()
 		{
-			_pageLength = new RequestParameter<int>(PAGE_PARAMETER_NAME, DEFAULT_PAGE_LENGTH);
+			_pageLength = new RequestParameter<int>(PAGE_LENGTH_PARAMETER_NAME, DEFAULT_PAGE_LENGTH);
 			_page = new RequestParameter<int>(PAGE_PARAMETER_NAME, DEFAULT_PAGE);
 		}
 		
 		public PaginatedRequest(int pageLength, int page)
 		{
-			_pageLength = new RequestParameter<int>("pagelen", pageLength);
-			_page = new RequestParameter<int>("page", page);
+			_pageLength = new RequestParameter<int>(PAGE_LENGTH_PARAMETER_NAME, pageLength);
+			_page = new RequestParameter<int>(PAGE_PARAMETER_NAME, page);
 		}
 		
 		
