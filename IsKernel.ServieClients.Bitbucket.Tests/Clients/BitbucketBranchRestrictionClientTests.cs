@@ -40,7 +40,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 			AssertHelper.AtLeastOnePropertyIsNotDefault<PaginatedResponse<BranchRestriction>>(result);
 		}
 		
-		//[Test]
+		[Test]
 		public void AddAsync_AddBranchRestriction_BranchIsRetrieved()
 		{
 			//TODO See why branch restriction post information is not ok
@@ -48,15 +48,12 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 			{
 				Kind = BranchRestrictionType.Delete.Value,
 				Pattern = ".*",
-				Users = new User[1]{
-					new User(){ Username = "abcdef"}
-				}
 			};
 			var result = _client.AddAsync(_defaultUser, _defaultRepository, branchRestriction).Result;
 			AssertHelper.AtLeastOnePropertyIsNotDefault<BranchRestriction>(result);
 		}
 		
-		//[Test]
+		[Test]
 		public void DeleteAsync_DeleteBranchRestriction_BranchIsRetrieved()
 		{
 			//TODO See why branch restriction post information is not ok

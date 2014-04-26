@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters
 {
-	public class ForkingPolicy : PrivateValueModel<string>
+	public class ForkingPolicy : ClassEnumBase<string>
 	{		
 		private ForkingPolicy(string value) : base(value)
 		{

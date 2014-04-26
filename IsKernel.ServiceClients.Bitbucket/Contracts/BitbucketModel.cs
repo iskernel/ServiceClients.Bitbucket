@@ -5,7 +5,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts
 {
 	public abstract class BitbucketModel
 	{
-		public string ToJson()
+		public virtual string ToDataString()
 		{
 			var jsonSerializerSettings = new JsonSerializerSettings()
 			{

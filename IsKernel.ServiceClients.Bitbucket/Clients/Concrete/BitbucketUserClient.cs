@@ -8,10 +8,11 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Teams;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
-	public class BitbucketUserClient : BitbucketClientBase ,IBitbucketUserClient
+	public class BitbucketUserClient : BitbucketClientBase , IBitbucketUserClient
 	{
 		private const string BASE_URL = "https://bitbucket.org/api/2.0/users";
 		
@@ -27,54 +28,50 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			
 		}
 		
-		public Task<Team> GetUserProfileAsync(string user)
+		public Task<Team> GetProfileAsync(string user)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(USERNAME_SEGMENT, user)
+				{USERNAME_SEGMENT, user}
 			};
-			var task = MakeAsyncRequest<Team>(USER_RESOURCE, Method.GET, 
-											  urlSegments, null, 
-											  "Could not retrieve user.");
+			var restRequest = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<Team>(USER_RESOURCE, restRequest);
 			return task;
 		}
 		
 		public Task<PaginatedResponse<User>> GetFollowersAsync(string user, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(USERNAME_SEGMENT, user)
+				{USERNAME_SEGMENT, user}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<User>>(FOLLOWERS_RESOURCE, Method.GET,
-																 urlSegments, parameters, 
-																 "Could not retrieve user followers.");
+			var parameters = CreateDefaultPaginationParameters(request);
+			var restRequest = new RestComplexRequest(Method.GET, segments, parameters);
+			var task = MakeAsyncRequest<PaginatedResponse<User>>(FOLLOWERS_RESOURCE, restRequest);
 			return task;
 		}
 		
 		public Task<PaginatedResponse<User>> GetFollowedAsync(string user, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(USERNAME_SEGMENT, user)
+				{USERNAME_SEGMENT, user}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<User>>(FOLLOWERS_RESOURCE, Method.GET,
-																 urlSegments, parameters, 
-																 "Could not retrieve the followed users.");
+			var parameters = CreateDefaultPaginationParameters(request);
+			var restRequest = new RestComplexRequest(Method.GET, segments, parameters);
+			var task = MakeAsyncRequest<PaginatedResponse<User>>(FOLLOWING_RESOURCE, restRequest);
 			return task;
 		}
 		
-		public Task<PaginatedResponse<Repository>> GetRepositoriesAsync(string teamName, PaginatedRequest request)
+		public Task<PaginatedResponse<Repository>> GetRepositoriesAsync(string user, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(USERNAME_SEGMENT, teamName)
+				{USERNAME_SEGMENT, user}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(REPOSITORIES_RESOURCE, Method.GET,
-																	   urlSegments, parameters, 
-																 	   "Could not retrieve user repositories.");
+			var parameters = CreateDefaultPaginationParameters(request);
+			var restRequest = new RestComplexRequest(Method.GET, segments, parameters);
+			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(REPOSITORIES_RESOURCE, restRequest);
 			return task;
 		}
 	}

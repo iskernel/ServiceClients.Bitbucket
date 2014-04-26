@@ -3,7 +3,7 @@ using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.PullRequests.Parameters
 {
-	public class PullRequestState : PrivateValueModel<string>
+	public class PullRequestState : ClassEnumBase<string>
 	{
 		private PullRequestState(string value) : base(value)
 		{

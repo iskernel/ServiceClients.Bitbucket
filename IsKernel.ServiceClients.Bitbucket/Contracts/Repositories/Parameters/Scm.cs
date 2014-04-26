@@ -4,7 +4,7 @@ using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters
 {
-	public class Scm : PrivateValueModel<string>
+	public class Scm : ClassEnumBase<string>
 	{
 		private Scm(string value) : base(value)
 		{

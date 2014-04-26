@@ -6,6 +6,7 @@ using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Branches;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
@@ -22,55 +23,57 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			
 		}
 		
-		public Task<PaginatedResponse<BranchRestriction>> GetAllAsync(string owner, string reposlug, 
-																	  PaginatedRequest request)
+		public Task<PaginatedResponse<BranchRestriction>> GetAllAsync(string owner, string reposlug, PaginatedRequest request)
 		{
-			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<BranchRestriction>>(BRANCH_RESTRICTIONS_RESOURCE, Method.GET,
-																			  urlSegments, parameters, 
-																			 "Could not retrieve branch restrictions");
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			var parameters = CreateDefaultPaginationParameters(request);
+			var restRequest = new RestComplexRequest(Method.GET, segments, parameters, null);
+			var task = MakeAsyncRequest<PaginatedResponse<BranchRestriction>>(BRANCH_RESTRICTIONS_RESOURCE, restRequest);
 			return task;
 		}
 		
 		public Task<BranchRestriction> AddAsync(string owner, string reposlug, BranchRestriction restriction)
 		{
-			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-			var task = MakePostWithContentAsyncRequest<BranchRestriction>(BRANCH_RESTRICTIONS_RESOURCE, restriction, 
-																		  urlSegments, null,
-   					   													  "Could not add branch restriction");
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			var extraHeaders = new Dictionary<string,string>();
+			extraHeaders.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			var content = restriction.CreatePostData();
+			var restRequest = new RestComplexDataRequest(Method.GET, segments, null, extraHeaders, content, 
+														 RestDataContentType.QueryString);
+			var task = MakeAsyncRequest<BranchRestriction>(BRANCH_RESTRICTIONS_RESOURCE, restRequest);
 			return task;
 		}
 		
 		
 		public Task<BranchRestriction> GetAsync(string owner, string reposlug, string id)
 		{
-			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-			urlSegments.Add(new Tuple<string, string>(ID_SEGMENT, id));
-			var task = MakeAsyncRequest<BranchRestriction>(SPECIFIED_RESTRICTION_RESOURCE, Method.GET,
-														   urlSegments, null, 
-														   "Could not retrieve branch restrictions");
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id);
+			var restRequest = new RestComplexRequest(Method.GET, segments, null, null);
+			var task = MakeAsyncRequest<BranchRestriction>(SPECIFIED_RESTRICTION_RESOURCE, restRequest);
 			return task;
 		}
 		
 		
 		public Task<BranchRestriction> EditAsync(string owner, string reposlug, string id, BranchRestriction restriction)
 		{
-			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-			urlSegments.Add(new Tuple<string, string>(ID_SEGMENT, id));
-			var task = MakePutWithContentAsyncRequest<BranchRestriction>(SPECIFIED_RESTRICTION_RESOURCE, restriction,
-														  				 urlSegments, null, 
-														   				 "Could not edit branch restrictions");
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id);
+			var extraHeaders = new Dictionary<string,string>();
+			extraHeaders.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			var content = restriction.CreatePostData();
+			var restRequest = new RestComplexDataRequest(Method.PUT, segments, null, extraHeaders, content, 
+														 RestDataContentType.QueryString);
+			var task = MakeAsyncRequest<BranchRestriction>(SPECIFIED_RESTRICTION_RESOURCE, restRequest);
 			return task;
 		}
 		
 		public Task<string> DeleteAsync(string owner, string reposlug, string id)
 		{
-			var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-			urlSegments.Add(new Tuple<string, string>(ID_SEGMENT, id));
-			var task = MakeAsyncRequest<string>(SPECIFIED_RESTRICTION_RESOURCE, Method.DELETE,
-											    urlSegments, null, 
-											    "Could not delete branch restrictions");
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id);
+			var restRequest = new RestComplexRequest(Method.GET, segments, null, null);
+			var task = MakeAsyncRequest<string>(SPECIFIED_RESTRICTION_RESOURCE, restRequest);
 			return task;
 		}
 		

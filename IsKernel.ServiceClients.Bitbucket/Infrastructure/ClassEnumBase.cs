@@ -2,11 +2,11 @@
 
 namespace IsKernel.ServiceClients.Bitbucket.Infrastructure
 {
-	public abstract class PrivateValueModel<T> where T : class
+	public abstract class ClassEnumBase<T> where T : class
 	{
 		public T Value { get; private set;}
 		
-		protected PrivateValueModel(T value)
+		protected ClassEnumBase(T value)
 		{
 			Value = value;
 		}

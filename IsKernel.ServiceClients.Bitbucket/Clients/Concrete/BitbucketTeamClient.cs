@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
@@ -8,6 +9,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Teams;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
@@ -30,69 +32,57 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		
 		public Task<Team> GetProfileAsync(string teamName)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(TEAM_NAME_SEGMENT, teamName)
-			};
-			var task = MakeAsyncRequest<Team>(TEAM_NAME_RESOURCE, Method.GET, 
-											  urlSegments, null, 
-											  "Could not retrieve team.");
-			return task;
+				{TEAM_NAME_SEGMENT, teamName}
+			};;
+			var request = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<Team>(TEAM_NAME_RESOURCE, request);
+			return task;	
 		}
 		
 		public Task<PaginatedResponse<User>> GetMembersAsync(string teamName, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(TEAM_MEMBERS_RESOURCE, teamName)
+				{TEAM_NAME_SEGMENT, teamName}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_NAME_RESOURCE, Method.GET,
-																 urlSegments, parameters, 
-																 "Could not retrieve team members.");
-			return task;
+			var restRequest = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_NAME_RESOURCE, restRequest);
+			return task;	
 		}
 		
 		public Task<PaginatedResponse<User>> GetFollowersAsync(string teamName, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(TEAM_FOLLOWERS_RESOURCE, teamName)
+				{TEAM_NAME_SEGMENT, teamName}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_NAME_RESOURCE, Method.GET,
-																 urlSegments, parameters, 
-																 "Could not retrieve team followers.");
-			return task;
+			var restRequest = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_FOLLOWERS_RESOURCE, restRequest);
+			return task;	
 		}
 		
 		public Task<PaginatedResponse<User>> GetFollowingAsync(string teamName, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(TEAM_FOLLOWERS_RESOURCE, teamName)
+				{TEAM_NAME_SEGMENT, teamName}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_FOLLOWING_RESOURCE, Method.GET,
-																 urlSegments, parameters, 
-																 "Could not retrieve team followers.");
-			return task;
+			var restRequest = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_FOLLOWING_RESOURCE, restRequest);
+			return task;	
 		}
 		
 		public Task<PaginatedResponse<Repository>> GetRepositoriesAsync(string teamName, PaginatedRequest request)
 		{
-			var urlSegments = new List<Tuple<string,string>>()
+			var segments = new Dictionary<string,string>()
 			{
-				new Tuple<string, string>(TEAM_REPOSITORIES_RESOURCE, teamName)
+				{TEAM_NAME_SEGMENT, teamName}
 			};
-			var parameters = request.ToTuples();
-			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(TEAM_FOLLOWING_RESOURCE, Method.GET,
-																	   urlSegments, parameters, 
-																 	   "Could not retrieve team repositories.");
+			var restRequest = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(TEAM_REPOSITORIES_RESOURCE, restRequest);
 			return task;
-		}
-		
-
-		
+		}		
 	}
 }

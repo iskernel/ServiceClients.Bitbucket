@@ -109,15 +109,19 @@
     <Compile Include="Contracts\PullRequests\PullRequestLinks.cs" />
     <Compile Include="Exceptions\BitbucketException.cs" />
     <Compile Include="Exceptions\RequestParameterException.cs" />
+    <Compile Include="Infrastructure\Extensions\NameValueCollectionExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\SecureStringExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
     <Compile Include="Infrastructure\MultiValueRequestParameter.cs" />
-    <Compile Include="Infrastructure\PrivateValueModel.cs" />
+    <Compile Include="Infrastructure\ClassEnumBase.cs" />
     <Compile Include="Infrastructure\RequestParameter.cs" />
     <Compile Include="Infrastructure\RequestParameterBase.cs" />
     <Compile Include="Contracts\Requests\PaginatedRequest.cs" />
     <Compile Include="Contracts\Repositories\Repository.cs" />
     <Compile Include="Contracts\Repositories\RepositoryLinks.cs" />
+    <Compile Include="Infrastructure\Rest\RestDataContentType.cs" />
+    <Compile Include="Infrastructure\Rest\RestComplexDataRequest.cs" />
+    <Compile Include="Infrastructure\Rest\RestSharpRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +145,7 @@
     <Folder Include="Exceptions" />
     <Folder Include="Clients" />
     <Folder Include="Infrastructure" />
+    <Folder Include="Infrastructure\Rest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

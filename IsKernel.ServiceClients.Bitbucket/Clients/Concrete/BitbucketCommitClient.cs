@@ -10,6 +10,7 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Other;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
 using IsKernel.ServiceClients.Bitbucket.Exceptions;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
@@ -34,80 +35,73 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			
 		}
 		
-		public Task<PaginatedResponse<Commit>> GetCommitsForRepositoryAsync(string owner, string repoSlug, 
-																		    PaginatedRequest paginatedRequest,
-																			CommitGetOptionalParameters optional)
+		public Task<PaginatedResponse<Commit>> GetAllAsync(string owner, string repoSlug, 
+													       PaginatedRequest paginatedRequest,
+														   CommitGetOptionalParameters optional)
 		{
-			var segmentList = CreateOwnerRepoSegments(owner,repoSlug);
-			var parameterList = paginatedRequest.ToTuples();
+			var segments = CreateDefaultSegmentsDictionary(owner, repoSlug);
+			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
 			var resourceUrl = string.Empty;
 			if(optional.BranchOrTag != null)
 			{
 				resourceUrl = COMMITS_DEFAULT_RESOURCE;
-				segmentList.Add(new Tuple<string, string>(optional.BranchOrTag.Name, optional.BranchOrTag.Value));
+				segments.Add(optional.BranchOrTag.Name, optional.BranchOrTag.Value);
 			}
 			else
 			{
 				resourceUrl = COMMITS_DEFAULT_RESOURCE;
 			}
-			
-			var ownerAndRepoList = CreateOwnerRepoSegments(owner, repoSlug);
-			var task = MakeAsyncRequest<PaginatedResponse<Commit>>(resourceUrl, Method.GET, segmentList, 
-																   parameterList, "Could not retrieve commits");
+			var restRequest = new RestComplexRequest(Method.GET, segments, parameters, null);	
+			var task = MakeAsyncRequest<PaginatedResponse<Commit>>(resourceUrl, restRequest);
 			return task;
 		}
 		
-		public Task<Commit> GetCommitAsync(string owner, string repoSlug, string revision)
+		public Task<Commit> GetAsync(string owner, string repoSlug, string revision)
 		{
-			var segmentList = CreateOwnerRepoSegments(owner,repoSlug);
-			segmentList.Add(new Tuple<string, string>(REVISION_SEGMENT, revision));
-			var task = MakeAsyncRequest<Commit>(SPECIFIED_COMMIT_RESOURCE, Method.GET, 
-												segmentList, null, 
-												"Could not read commit.");
+			var segments = CreateDefaultSegmentsDictionary(owner, repoSlug);
+			segments.Add(REVISION_SEGMENT, revision);
+			var restRequest = new RestComplexRequest(Method.GET, segments, null, null);	
+			var task = MakeAsyncRequest<Commit>(SPECIFIED_COMMIT_RESOURCE, restRequest);
 			return task;
 		}
 		
-		public Task<PaginatedResponse<Comment>> GetCommitCommentsAsync(string owner, string repoSlug, string revision,
-																	   PaginatedRequest request)
+		public Task<PaginatedResponse<Comment>> GetCommentsAsync(string owner, string repoSlug, string revision,
+															     PaginatedRequest paginatedRequest)
 		{
-			var parameterlist = request.ToTuples();
-			var segmentList = CreateOwnerRepoSegments(owner,repoSlug);
-			segmentList.Add(new Tuple<string, string>(REVISION_SEGMENT, revision));
-			var task = MakeAsyncRequest<PaginatedResponse<Comment>>(SPECIFIED_COMMIT_COMMENTS_RESOURCE, Method.GET, 
-																	segmentList, parameterlist, 
-																	"Could not read commit comments.");
+			var segments = CreateDefaultSegmentsDictionary(owner, repoSlug);
+			segments.Add(REVISION_SEGMENT, revision);
+			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
+			var restRequest = new RestComplexRequest(Method.GET, segments, parameters, null);
+			var task = MakeAsyncRequest<PaginatedResponse<Comment>>(SPECIFIED_COMMIT_COMMENTS_RESOURCE, restRequest);
 			return task;			
 		}
 		
-		public Task<Comment> GetCommitSpecificCommentAsync(string owner, string repoSlug, string revision, long commentId)
+		public Task<Comment> GetCommentAsync(string owner, string repoSlug, string revision, string commentId)
 		{
-			var segmentList = CreateOwnerRepoSegments(owner,repoSlug);
-			segmentList.Add(new Tuple<string, string>(REVISION_SEGMENT, revision));
-			segmentList.Add(new Tuple<string, string>(COMMENT_ID_SEGMENT, commentId.ToString()));
-			var task = MakeAsyncRequest<Comment>(SPECIFIED_COMMIT_SPECIFIC_COMMENT_RESOURCE, Method.GET, 
-												 segmentList, null, 
-												 "Could not read commit comment.");
+			var segments = CreateDefaultSegmentsDictionary(owner, repoSlug);
+			segments.Add(REVISION_SEGMENT, revision);
+			segments.Add(COMMENT_ID_SEGMENT, commentId);
+			var restRequest = new RestComplexRequest(Method.GET, segments, null, null);	
+			var task = MakeAsyncRequest<Comment>(SPECIFIED_COMMIT_SPECIFIC_COMMENT_RESOURCE, restRequest);
 			return task;
 		}
 		
-		public Task<ApprovalStatus> ApproveCommitAsync(string owner, string repoSlug, string revision)
+		public Task<ApprovalStatus> ApproveAsync(string owner, string repoSlug, string revision)
 		{
-			var segmentList = CreateOwnerRepoSegments(owner,repoSlug);
-			segmentList.Add(new Tuple<string, string>(REVISION_SEGMENT, revision));
-			var task = MakeAsyncRequest<ApprovalStatus>(APPROVE_COMMENT_RESOURCE, Method.POST, 
-												 		segmentList, null, 
-												 		"Could not read commit comment.");
+			var segments = CreateDefaultSegmentsDictionary(owner, repoSlug);
+			segments.Add(REVISION_SEGMENT, revision);
+			var restRequest = new RestComplexRequest(Method.POST, segments, null, null);	
+			var task = MakeAsyncRequest<ApprovalStatus>(APPROVE_COMMENT_RESOURCE, restRequest);
 			return task;
 		}
 		
 		
-		public Task<string> DisapproveCommitAsync(string owner, string repoSlug, string revision)
+		public Task<string> DisapproveAsync(string owner, string repoSlug, string revision)
 		{
-			var segmentList = CreateOwnerRepoSegments(owner,repoSlug);
-			segmentList.Add(new Tuple<string, string>(REVISION_SEGMENT, revision));
-			var task = MakeAsyncRequest<string>(APPROVE_COMMENT_RESOURCE, Method.DELETE, 
-										 		segmentList, null, 
-										 		"Could not read commit comment.");
+			var segments = CreateDefaultSegmentsDictionary(owner, repoSlug);
+			segments.Add(REVISION_SEGMENT, revision);
+			var restRequest = new RestComplexRequest(Method.DELETE, segments, null, null);	
+			var task = MakeAsyncRequest<string>(APPROVE_COMMENT_RESOURCE, restRequest);
 			return task;
 		}
 	}

@@ -15,12 +15,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			
 		}
 		
-		protected List<Tuple<string,string>> CreateOwnerRepoSegments(string owner, string reposlug)
+		protected Dictionary<string,string> CreateDefaultSegmentsDictionary(string owner, string reposlug)
 		{
-			var list = new List<Tuple<string,string>>();
-			list.Add(new Tuple<string, string>(OWNER_SEGMENT, owner));
-			list.Add(new Tuple<string, string>(REPO_SLUG_SEGMENT, reposlug));
-			return list;
+			var dictionary = new Dictionary<string,string>();
+			dictionary.Add(OWNER_SEGMENT, owner);
+			dictionary.Add(REPO_SLUG_SEGMENT, reposlug);
+			return dictionary;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Clients.Concrete;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 public class BitbucketDiffClient : BitbucketRepositoryClientBase, IBitbucketDiffClient
 {
@@ -19,17 +20,19 @@ public class BitbucketDiffClient : BitbucketRepositoryClientBase, IBitbucketDiff
 	
 	public Task<string> GetDiffAsync(string owner, string reposlug, string spec)
 	{
-		var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-		urlSegments.Add(new Tuple<string, string>(SPEC_SEGMENT, spec));
-		var task = MakeAsyncRequest<string>(DIFF_RESOURCE, Method.GET, urlSegments, null, "Could not retrieve diff");
+		var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+		segments.Add(SPEC_SEGMENT, spec);
+		var restRequest = new RestComplexRequest(Method.POST, segments, null, null);	
+		var task = MakeAsyncRequest<string>(DIFF_RESOURCE, restRequest);
 		return task;
 	}
 	
 	public Task<string> GetPatchAsync(string owner, string reposlug, string spec)
 	{
-		var urlSegments = CreateOwnerRepoSegments(owner, reposlug);
-		urlSegments.Add(new Tuple<string, string>(SPEC_SEGMENT, spec));
-		var task = MakeAsyncRequest<string>(PATCH_RESOURCE, Method.GET, urlSegments, null, "Could not retrieve diff");
+		var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+		segments.Add(SPEC_SEGMENT, spec);
+		var restRequest = new RestComplexRequest(Method.POST, segments, null, null);	
+		var task = MakeAsyncRequest<string>(PATCH_RESOURCE, restRequest);
 		return task;
 	}
 }

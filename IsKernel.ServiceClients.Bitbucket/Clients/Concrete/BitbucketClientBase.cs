@@ -6,6 +6,7 @@ using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Contracts;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Exceptions;
+using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 {
@@ -17,38 +18,65 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		{
 			_client = new RestClient(clientBaseUrl);
 			_client.Authenticator = authentificator;
-		}
+		}		
 		
-		protected RestRequest AddPaginationParameters(RestRequest request, PaginatedRequest paginationRequest)
+		private RestRequest CreateRequest(string resourceUrl, RestComplexRequest request)
 		{
-			request.AddParameter(paginationRequest.PageLength.Name, paginationRequest.PageLength.Value);
-			request.AddParameter(paginationRequest.Page.Name, paginationRequest.Page.Value);
-			return request;
-		}
-		
-		public Task<T> MakeAsyncRequest<T>(string resourceUrl, 
-										   Method method,
-										   List<Tuple<string, string>> urlSegments = null, 
-										   List<Tuple<string, string>> parameters = null,
-										   string exceptionMessage = "")
-		{
-			var taskCompletionSource = new TaskCompletionSource<T>();
-			var request = new RestRequest(resourceUrl, method);
-			if(urlSegments != null)
+			var restRequest = new RestRequest(resourceUrl, request.Method);
+			if(request.UrlSegments != null)
 			{
-				foreach (var element in urlSegments) 
+				foreach (var element in request.UrlSegments) 
 				{
-					request.AddUrlSegment(element.Item1, element.Item2);		
+					restRequest.AddUrlSegment(element.Key, element.Value);		
 				}
 			}
-			if(parameters != null)
+			if(request.Parameters != null)
 			{
-				foreach (var element in parameters) 
+				foreach (var element in request.Parameters) 
 				{
-					request.AddParameter(element.Item1, element.Item2);
+					restRequest.AddParameter(element.Key, element.Value);
 				}
 			}
-			_client.ExecuteAsync(request, response => {
+			if(request.ExtraHeaders != null)
+			{
+				foreach (var element in request.ExtraHeaders) 
+				{
+					restRequest.AddParameter(element.Key, element.Value);
+				}
+			}
+			if(request.GetType() == typeof(RestComplexDataRequest))
+			{
+				var dataRequest = (request as RestComplexDataRequest);
+				if(dataRequest != null)
+				{
+					if(dataRequest.ContentType != null)
+					{
+						if(dataRequest.ContentType == RestDataContentType.Json)
+						{
+							restRequest.RequestFormat = DataFormat.Json;
+						}
+						else if(dataRequest.ContentType == RestDataContentType.Xml)
+						{
+							restRequest.RequestFormat = DataFormat.Xml;
+						}
+					}
+					restRequest.AddBody(dataRequest.Content);
+				}
+			}
+			return restRequest;
+		}
+		
+		private string CreateExceptionMessage(IRestResponse response)
+		{
+			string responseString = response.ResponseUri 
+									+ " " + response.ResponseStatus.ToString()
+									+ " " + response.Content;
+			return responseString;
+		}
+		
+		private void MakeRequestCallAsync<T>(TaskCompletionSource<T> taskCompletionSource, RestRequest request)
+		{
+ 			_client.ExecuteAsync(request, response => {
 				try 
 				{
 					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
@@ -58,91 +86,27 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 				} 
 				catch (Exception exception)
 				{
+					var exceptionMessage = CreateExceptionMessage(response);
 					var bitbucketException = new BitbucketException(exceptionMessage, exception);
 					taskCompletionSource.SetException(bitbucketException);
 				}
 			});	
-			return taskCompletionSource.Task;	
 		}
 		
-		public Task<T> MakePostWithContentAsyncRequest<T>(string resourceUrl, 
-										  			 	  BitbucketModel model,										   	
-										   				  List<Tuple<string, string>> urlSegments = null, 
-										   				  List<Tuple<string, string>> parameters = null,
-														  string exceptionMessage = "") 
+		protected Dictionary<string,string> CreateDefaultPaginationParameters(PaginatedRequest request)
 		{
-			var taskCompletionSource = new TaskCompletionSource<T>();
-			var request = new RestRequest(resourceUrl, Method.POST);
-			if(urlSegments != null)
-			{
-				foreach (var element in urlSegments) 
-				{
-					request.AddUrlSegment(element.Item1, element.Item2);		
-				}
-			}
-			if(parameters != null)
-			{
-				foreach (var element in parameters) 
-				{
-					request.AddParameter(element.Item1, element.Item2);
-				}
-			}
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(model.ToJson());
-			_client.ExecuteAsync(request, response => {
-				try
-				{
-					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
-					System.Diagnostics.Debug.WriteLine(response.Content);
-					var result = JsonConvert.DeserializeObject<T>(response.Content);
-					taskCompletionSource.SetResult(result);
-				} 
-				catch (Exception exception) {
-					var bitbucketException = new BitbucketException(exceptionMessage, exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-			});	
-			return taskCompletionSource.Task;	
+			var dictionary = new Dictionary<string,string>();
+			dictionary.Add(request.Page.Name, request.Page.Value.ToString());
+			dictionary.Add(request.PageLength.Name, request.PageLength.Value.ToString());
+			return dictionary;
 		}
 		
-		public Task<T> MakePutWithContentAsyncRequest<T>(string resourceUrl, 
-										  			 	 BitbucketModel model,										   	
-										   				 List<Tuple<string, string>> urlSegments = null, 
-										   				 List<Tuple<string, string>> parameters = null,
-										   				 string exceptionMessage = "")
+		protected Task<T> MakeAsyncRequest<T>(string resourceUrl, RestComplexRequest request)
 		{
 			var taskCompletionSource = new TaskCompletionSource<T>();
-			var request = new RestRequest(resourceUrl, Method.PUT);
-			if(urlSegments != null)
-			{
-				foreach (var element in urlSegments) 
-				{
-					request.AddUrlSegment(element.Item1, element.Item2);		
-				}
-			}
-			if(parameters != null)
-			{
-				foreach (var element in parameters) 
-				{
-					request.AddParameter(element.Item1, element.Item2);
-				}
-			}
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(model.ToJson());
-			_client.ExecuteAsync(request, response => {
-				try 
-				{
-					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
-					System.Diagnostics.Debug.WriteLine(response.Content);
-					var result = JsonConvert.DeserializeObject<T>(response.Content);
-					taskCompletionSource.SetResult(result);
-				} 
-				catch (Exception exception) {
-					var bitbucketException = new BitbucketException(exceptionMessage, exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-			});	
-			return taskCompletionSource.Task;	
-		}
+			var restRequest = CreateRequest(resourceUrl, request);
+			MakeRequestCallAsync(taskCompletionSource, restRequest);
+			return taskCompletionSource.Task;
+		}		
 	}
 }

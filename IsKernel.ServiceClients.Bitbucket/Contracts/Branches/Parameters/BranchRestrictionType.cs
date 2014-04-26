@@ -3,7 +3,7 @@ using IsKernel.ServiceClients.Bitbucket.Infrastructure;
 
 namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches.Parameters
 {
-	public class BranchRestrictionType : PrivateValueModel<string>
+	public class BranchRestrictionType : ClassEnumBase<string>
 	{
 		private BranchRestrictionType(string value) : base(value)
 		{

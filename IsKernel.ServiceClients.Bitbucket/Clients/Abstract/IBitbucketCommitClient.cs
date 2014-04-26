@@ -10,14 +10,13 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 {
 	public interface IBitbucketCommitClient
 	{
-		Task<PaginatedResponse<Commit>> GetCommitsForRepositoryAsync(string owner, string repoSlug, 
-																     PaginatedRequest paginatedRequest,
-																	 CommitGetOptionalParameters optional);
-		Task<Commit> GetCommitAsync(string owner, string repoSlug, string revision);
-		Task<PaginatedResponse<Comment>> GetCommitCommentsAsync(string owner, string repoSlug, string revision,
-															    PaginatedRequest request);
-		Task<Comment> GetCommitSpecificCommentAsync(string owner, string repoSlug, string revision, long commentId);
-		Task<ApprovalStatus> ApproveCommitAsync(string owner, string repoSlug, string revision);
-		Task<string> DisapproveCommitAsync(string owner, string repoSlug, string revision);
+		Task<PaginatedResponse<Commit>> GetAllAsync(string owner, string repoSlug, PaginatedRequest paginatedRequest,
+											   CommitGetOptionalParameters optional);
+		Task<Commit> GetAsync(string owner, string repoSlug, string revision);
+		Task<PaginatedResponse<Comment>> GetCommentsAsync(string owner, string repoSlug, string revision,
+														  PaginatedRequest request);
+		Task<Comment> GetCommentAsync(string owner, string repoSlug, string revision, string commentId);
+		Task<ApprovalStatus> ApproveAsync(string owner, string repoSlug, string revision);
+		Task<string> DisapproveAsync(string owner, string repoSlug, string revision);
 	}
 }
