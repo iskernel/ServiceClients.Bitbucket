@@ -121,7 +121,7 @@
     <Compile Include="Contracts\Repositories\RepositoryLinks.cs" />
     <Compile Include="Infrastructure\Rest\RestDataContentType.cs" />
     <Compile Include="Infrastructure\Rest\RestComplexDataRequest.cs" />
-    <Compile Include="Infrastructure\Rest\RestSharpRequest.cs" />
+    <Compile Include="Infrastructure\Rest\RestComplexRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
