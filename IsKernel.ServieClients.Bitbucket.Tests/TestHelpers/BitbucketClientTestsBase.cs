@@ -6,7 +6,7 @@ using IsKernel.ServiceClients.Bitbucket.Clients.Concrete;
 
 namespace IsKernel.ServieClients.Bitbucket.Tests.TestHelpers
 {
-	public class BitbucketClientTestBase
+	public class BitbucketClientTestsBase
 	{
 		protected IBitbucketClient _mainClient;
 		

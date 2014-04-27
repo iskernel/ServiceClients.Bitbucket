@@ -9,9 +9,9 @@ public class BitbucketDiffClient : BitbucketRepositoryClientBase, IBitbucketDiff
 {
 	private const string SPEC_SEGMENT = "spec";
 	
-	private const string BASE_URL = "https://bitbucket.org/api/2.0/";
-	private const string DIFF_RESOURCE = "{owner}/{repo_slug}/diff/{spec}";
-	private const string PATCH_RESOURCE = "{owner}/{repo_slug}/patch/{spec}";
+	private const string BASE_URL = "https://bitbucket.org/api/2.0";
+	private const string DIFF_RESOURCE = "/repositories/{owner}/{repo_slug}/diff/{spec}";
+	private const string PATCH_RESOURCE = "/repositories/{owner}/{repo_slug}/patch/{spec}";
 	
 	public BitbucketDiffClient(IAuthenticator authenticator) : base(authenticator, BASE_URL)
 	{
@@ -22,7 +22,7 @@ public class BitbucketDiffClient : BitbucketRepositoryClientBase, IBitbucketDiff
 	{
 		var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 		segments.Add(SPEC_SEGMENT, spec);
-		var restRequest = new RestComplexRequest(Method.POST, segments, null, null);	
+		var restRequest = new RestComplexRequest(Method.GET, segments, null, null);	
 		var task = MakeAsyncRequest<string>(DIFF_RESOURCE, restRequest);
 		return task;
 	}
@@ -31,7 +31,7 @@ public class BitbucketDiffClient : BitbucketRepositoryClientBase, IBitbucketDiff
 	{
 		var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 		segments.Add(SPEC_SEGMENT, spec);
-		var restRequest = new RestComplexRequest(Method.POST, segments, null, null);	
+		var restRequest = new RestComplexRequest(Method.GET, segments, null, null);	
 		var task = MakeAsyncRequest<string>(PATCH_RESOURCE, restRequest);
 		return task;
 	}

@@ -96,8 +96,16 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 				{									
 					System.Diagnostics.Debug.WriteLine(response.ResponseUri);
 					System.Diagnostics.Debug.WriteLine(response.Content);
-					var result = JsonConvert.DeserializeObject<T>(response.Content);
-					taskCompletionSource.SetResult(result);
+					if(typeof(T) != typeof(string))
+					{ 
+						var result = JsonConvert.DeserializeObject<T>(response.Content);
+						taskCompletionSource.SetResult(result);
+					}
+					else
+					{
+						var result = response.Content;
+						taskCompletionSource.SetResult((dynamic)(result));
+					}
 				} 
 				catch (Exception exception)
 				{

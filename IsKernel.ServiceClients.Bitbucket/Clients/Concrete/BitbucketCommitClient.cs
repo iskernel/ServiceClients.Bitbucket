@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Commits;
@@ -9,7 +8,6 @@ using IsKernel.ServiceClients.Bitbucket.Contracts.Commits.Parameters;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Other;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;
-using IsKernel.ServiceClients.Bitbucket.Exceptions;
 using IsKernel.ServiceClients.Bitbucket.Infrastructure.Rest;
 
 namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete

@@ -59,7 +59,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			segments.Add(ID_SEGMENT, id);
 			var content = restriction.CreatePostData();
 			var restRequest = new RestComplexDataRequest(Method.PUT, segments, null, null, content, 
-														  RestDataContentType.UrlEncode);
+														 RestDataContentType.UrlEncode);
 			var task = MakeAsyncRequest<BranchRestriction>(SPECIFIED_RESTRICTION_RESOURCE, restRequest);
 			return task;
 		}
@@ -68,7 +68,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		{
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			segments.Add(ID_SEGMENT, id);
-			var restRequest = new RestComplexRequest(Method.GET, segments, null, null);
+			var restRequest = new RestComplexRequest(Method.DELETE, segments, null, null);
 			var task = MakeAsyncRequest<string>(SPECIFIED_RESTRICTION_RESOURCE, restRequest);
 			return task;
 		}
