@@ -57,6 +57,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 						if(dataRequest.ContentType == RestDataContentType.Json)
 						{
 							restRequest.RequestFormat = DataFormat.Json;
+							restRequest.JsonSerializer = new JsonCustomSerializer();
 							restRequest.AddBody(dataRequest.Content);
 						}
 						else if(dataRequest.ContentType == RestDataContentType.Xml)
@@ -131,5 +132,17 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			MakeRequestCallAsync(taskCompletionSource, restRequest);
 			return taskCompletionSource.Task;
 		}		
+
+		protected Task<T> MakeAsyncRequest<T>(string resourceUrl, RestComplexRequest request, Dictionary<string,string> files)
+		{
+			var taskCompletionSource = new TaskCompletionSource<T>();
+			var restRequest = CreateRequest(resourceUrl, request);
+			foreach (var element in files) 
+			{
+				restRequest.AddFile(element.Key, element.Value);	
+			}
+			MakeRequestCallAsync(taskCompletionSource, restRequest);
+			return taskCompletionSource.Task;
+		}	
 	}
 }

@@ -12,16 +12,12 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 	public class BitbucketCommitClientTests : BitbucketClientTestsBase
 	{
 		private IBitbucketCommitClient _client;
-		private string _defaultUser;
-		private string _defaultRepository;
 		
 		[SetUp]
 		public override void Setup()
 		{
 			base.Setup();
 			_client = _mainClient.CommitClient;
-			_defaultUser = "btaranu";
-			_defaultRepository = "apitest";
 		}
 		
 		[TearDown]

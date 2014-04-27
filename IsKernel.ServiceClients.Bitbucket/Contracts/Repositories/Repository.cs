@@ -1,8 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Users;
 
-namespace IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories
+namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories
 {
 	public class Repository : BitbucketModel
 	{

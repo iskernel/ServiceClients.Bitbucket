@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using IsKernel.ServiceClients.Bitbucket.Clients.Abstract;
-using IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories;
+using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Repositories.Parameters;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Requests;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Responses;

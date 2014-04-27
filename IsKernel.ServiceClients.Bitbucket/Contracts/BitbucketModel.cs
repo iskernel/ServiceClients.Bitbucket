@@ -5,10 +5,11 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts
 {
 	public abstract class BitbucketModel
 	{
-		public virtual string ToDataString()
+		public virtual string Serialize()
 		{
 			var jsonSerializerSettings = new JsonSerializerSettings()
 			{
+				StringEscapeHandling = StringEscapeHandling.Default,
 				Formatting = Formatting.Indented,
 				NullValueHandling = NullValueHandling.Ignore
 			};

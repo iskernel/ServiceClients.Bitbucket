@@ -51,6 +51,7 @@
     <Compile Include="Clients\BitbucketBranchRestrictionClientTests.cs" />
     <Compile Include="Clients\BitbucketCommitClientTests.cs" />
     <Compile Include="Clients\BitbucketDiffClientTests.cs" />
+    <Compile Include="Clients\BitbucketPullRequestClientTests.cs" />
     <Compile Include="Clients\BitbucketRepositoryClientTests.cs" />
     <Compile Include="TestHelpers\AssertHelper.cs" />
     <Compile Include="TestHelpers\BitbucketClientTestsBase.cs" />

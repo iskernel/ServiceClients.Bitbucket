@@ -16,8 +16,6 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 	[TestFixture]
 	public class BitbucketBranchRestrictionClientTests : BitbucketClientTestsBase
 	{
-		private string _defaultUser;
-		private string _defaultRepository;
 		private IBitbucketBranchRestrictionClient _client;
 		
 		[SetUp]
@@ -25,8 +23,6 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		{
 			base.Setup();
 			_client = _mainClient.BranchRestrictionClient;
-			_defaultUser = "btaranu";
-			_defaultRepository = "apitest";
 		}
 		
 		[TearDown]

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using IsKernel.ServiceClients.Bitbucket.Contracts.Other;
 
-namespace IsKernel.ServiceClients.Bitbucket.Contracts.Models.Repositories
+namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories
 {
 	public class RepositoryLinks : SelfAndAvatarLinks
 	{

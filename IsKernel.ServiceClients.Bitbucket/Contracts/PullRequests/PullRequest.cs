@@ -17,7 +17,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.PullRequests
 		public User Author {get;set;}
 		
 		[JsonProperty("close_source_branch")]
-		public bool? IsCloseSourceBranch {get;set;}
+		public bool? CloseSourceBranch {get;set;}
 		
 		[JsonProperty("title")]
 		public string Title {get;set;}

@@ -19,17 +19,19 @@ namespace IsKernel.ServiceClients.Bitbucket.Infrastructure
 				var parameterValue = string.Empty;
 				foreach (var element in Values) 
 				{
-					parameterValue += element + "|";
+					if(typeof(T).BaseType.IsGenericType && typeof(T).BaseType.GetGenericTypeDefinition() == typeof(ClassEnumBase<>))
+					{
+						var newElement = (dynamic)(element);
+						parameterValue += newElement.Value + "|";	
+					}
+					else
+					{
+						parameterValue += element + "|";
+					}
 				}
 				parameterValue = parameterValue.Substring(0, parameterValue.Length - 1);
 				return parameterValue;
 			}			
-		}
-		
-		public Tuple<string,string> ToTuple()
-		{
-			var tuple = new Tuple<string,string>(Name, ParameterValue);
-			return tuple;
 		}
 	}
 }

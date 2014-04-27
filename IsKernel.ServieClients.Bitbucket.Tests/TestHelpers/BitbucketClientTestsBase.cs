@@ -9,18 +9,23 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.TestHelpers
 	public class BitbucketClientTestsBase
 	{
 		protected IBitbucketClient _mainClient;
+		protected string _defaultUser;
+		protected string _defaultRepository;
+		protected string _defaultCommit;
 		
 		public virtual void Setup()
 		{
-			var keys = File.ReadAllText("ApiKeys.txt")
-					   .Split(Environment.NewLine.ToCharArray())
-					   .Where(line => string.IsNullOrWhiteSpace(line) == false)
-					   .ToArray();
-			var apiKey = keys[0];
-			var apiSecretKey = keys[1];
-			var token = keys[2];
-			var tokenSecret = keys[3];
-			
+			var bitbucketData = File.ReadAllText("ApiKeys.txt")
+							    .Split(Environment.NewLine.ToCharArray())
+							    .Where(line => string.IsNullOrWhiteSpace(line) == false)
+							    .ToArray();
+			var apiKey = bitbucketData[0];
+			var apiSecretKey = bitbucketData[1];
+			var token = bitbucketData[2];
+			var tokenSecret = bitbucketData[3];
+			_defaultUser = bitbucketData[4];
+			_defaultRepository = bitbucketData[5];
+			_defaultCommit = bitbucketData[6];
 			var authClient = new BitbucketAuthenticationClient(apiKey, apiSecretKey);		
 			_mainClient = authClient.AuthentificateWithAccessToken(token, tokenSecret);
 		}

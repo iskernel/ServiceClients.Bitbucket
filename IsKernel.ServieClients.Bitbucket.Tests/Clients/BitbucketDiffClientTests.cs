@@ -10,16 +10,12 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 	public class BitbucketDiffClientTests : BitbucketClientTestsBase
 	{
 		private IBitbucketDiffClient _client;
-		private string _defaultUser;
-		private string _defaultRepository;
 		
 		[SetUp]
 		public override void Setup()
 		{
 			base.Setup();
 			_client = _mainClient.DiffClient;
-			_defaultUser = "btaranu";
-			_defaultRepository = "ttftopng";
 		}
 		
 		[TearDown]

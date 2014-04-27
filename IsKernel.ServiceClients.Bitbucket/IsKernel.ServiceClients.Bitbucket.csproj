@@ -109,6 +109,7 @@
     <Compile Include="Contracts\PullRequests\PullRequestLinks.cs" />
     <Compile Include="Exceptions\BitbucketException.cs" />
     <Compile Include="Exceptions\RequestParameterException.cs" />
+    <Compile Include="Infrastructure\JsonCustomSerializer.cs" />
     <Compile Include="Infrastructure\MultiValueRequestParameter.cs" />
     <Compile Include="Infrastructure\ClassEnumBase.cs" />
     <Compile Include="Infrastructure\RequestParameter.cs" />

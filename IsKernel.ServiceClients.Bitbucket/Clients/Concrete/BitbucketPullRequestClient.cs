@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -19,12 +20,16 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 	{
 		private const string ID_SEGMENT = "id";
 		private const string PULL_REQUEST_ID_SEGMENT = "pull_request_id";
-		private const string COMMENT_ID_SEGMENT = "comment_id";
+		private const string COMMENT_ID_SEGMENT = "comment_id";		
+		
+		private const string NUMBER_OF_CONTEXT_LINES_PARAMETER = "num_lines";
+		private const string MESSAGE_PARAMETER = "message";
+		private const string CLOSE_SOURCE_BRANCH_PARAMETER = "close_source_branch";
 		
 		private const string PULL_REQUEST_BASE_URL_1 = "https://bitbucket.org/api/1.0/repositories";
 		private const string PULL_REQUEST_BASE_URL_2 = "https://api.bitbucket.org/2.0/repositories";
 		
-		private const string DEFAULT_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}";
+		private const string DEFAULT_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests";
 		private const string ACTIVITY_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/activity";
 		private const string ACTIVITY_SPECIFIC_PULL_REQUEST_RESOURCE 
 							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/activities";	
@@ -47,97 +52,50 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		}
 		
 		public Task<PaginatedResponse<PullRequest>> GetAllAsync(string owner, string reposlug, 
-											     			    MultiValueRequestParameter<PullRequestState> states,
+											     			    IEnumerable<PullRequestState> statesValues,
 														        PaginatedRequest paginatedRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_1;
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
+			var states = new MultiValueRequestParameter<PullRequestState>("state", statesValues);
 			parameters.Add(states.Name, states.ParameterValue);
 			var request = new RestComplexRequest(Method.GET, segments, parameters);
 			var task = MakeAsyncRequest<PaginatedResponse<PullRequest>>(DEFAULT_PULL_REQUEST_RESOURCE, request);
 			return task;
 		}
 	
-		public Task<string> CreateAsync(string owner, string reposlug, PullRequest pullRequest)
+		public Task<PullRequest> CreateAsync(string owner, string reposlug, PullRequest pullRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<string>();
-			var request = new RestRequest(DEFAULT_PULL_REQUEST_RESOURCE, Method.POST);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(pullRequest);
-			
-			_client.ExecuteAsync(request, response => {
-				try {
-					taskCompletionSource.SetResult(response.Content);
-				} catch (Exception exception) {
-					var bitbucketException = new BitbucketException("Could not post pull request", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;			
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			var request = new RestComplexDataRequest(Method.POST, segments, null, null, pullRequest, 
+													 RestDataContentType.Json);
+			System.Diagnostics.Debug.WriteLine(pullRequest.Serialize());
+			var task = MakeAsyncRequest<PullRequest>(DEFAULT_PULL_REQUEST_RESOURCE, request);
+			return task;		
 		}
 	
-		public Task<string> EditAsync(string owner, string reposlug, long id, PullRequest pullRequest)
+		public Task<PullRequest> EditAsync(string owner, string reposlug, long id, PullRequest pullRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<string>();
-			var request = new RestRequest(DEFAULT_PULL_REQUEST_RESOURCE, Method.PUT);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(ID_SEGMENT, id.ToString());
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(pullRequest);
-			
-			_client.ExecuteAsync(request, response => {
-				try {
-					taskCompletionSource.SetResult(response.Content);
-				} catch (Exception exception) {
-					var bitbucketException = new BitbucketException("Could not edit pull request", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id.ToString());
+			var request = new RestComplexDataRequest(Method.PUT, segments, null, null, pullRequest, 
+													 RestDataContentType.Json);
+			var task = MakeAsyncRequest<PullRequest>(DEFAULT_PULL_REQUEST_RESOURCE, request);
+			return task;
 		}
 		
 		public Task<PullRequest> GetAsync(string owner, string reposlug, long id)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<PullRequest>();
-			var request = new RestRequest(DEFAULT_PULL_REQUEST_RESOURCE, Method.GET);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(ID_SEGMENT, id.ToString());
-			
-			request.Method = Method.GET;
-			_client.ExecuteAsync(request, response => 
-			{
-				try 
-				{
-					var result = JsonConvert.DeserializeObject<PullRequest>(response.Content);
-					taskCompletionSource.SetResult(result);
-				} 
-				catch (Exception exception) 
-				{
-					var bitbucketException = new BitbucketException("Could not read repository pull request.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id.ToString());
+			var request = new RestComplexRequest(Method.GET, segments, null, null);
+			var task = MakeAsyncRequest<PullRequest>(DEFAULT_PULL_REQUEST_RESOURCE, request);
+			return task;	
 		}
 	
 		public Task<PaginatedResponse<Commit>> GetCommitsAsync(string owner, string reposlug, long id,
 															   PaginatedRequest paginatedRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			segments.Add(ID_SEGMENT, id.ToString());
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
@@ -148,83 +106,40 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 	
 		public Task<string> ApproveAsync(string owner, string reposlug, long id)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<string>();
-			var request = new RestRequest(APPROVE_PULL_REQUEST_RESOURCE, Method.POST);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(ID_SEGMENT, id.ToString());
-			
-			_client.ExecuteAsync(request, response => {
-				try {
-					taskCompletionSource.SetResult(response.Content);
-				} catch (Exception exception) {
-					var bitbucketException = new BitbucketException("Could approve pull request.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id.ToString());
+			var request = new RestComplexRequest(Method.POST, segments, null, null);
+			var task = MakeAsyncRequest<string>(APPROVE_PULL_REQUEST_RESOURCE, request);
+			return task;	
 		}
 		
 		public Task<string> DisapproveAsync(string owner, string reposlug, long id)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<string>();
-			var request = new RestRequest(APPROVE_PULL_REQUEST_RESOURCE, Method.DELETE);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(ID_SEGMENT, id.ToString());
-			
-			_client.ExecuteAsync(request, response => 
-			{
-				try 
-				{
-					taskCompletionSource.SetResult(response.Content);
-				} 
-				catch (Exception exception) 
-				{
-					var bitbucketException = new BitbucketException("Could approve pull request.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id.ToString());
+			var request = new RestComplexRequest(Method.DELETE, segments, null, null);
+			var task = MakeAsyncRequest<string>(APPROVE_PULL_REQUEST_RESOURCE, request);
+			return task;	
 		}
 		
-		public Task<string> GetDiffAsync(string owner, string reposlug, long id, long numberOfContextLines)
+		public Task<string> GetDiffAsync(string owner, string reposlug, long id, long numberOfContextLines = 3L)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<string>();
-			var request = new RestRequest(DIFF_SPECIFIED_PULL_REQUEST_RESOURCE, Method.GET);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(ID_SEGMENT, id.ToString());
-			request.AddParameter("context", numberOfContextLines);
-			
-			_client.ExecuteAsync(request, response => 
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(ID_SEGMENT, id.ToString());
+			Dictionary<string,string> parameters = null;
+			if(numberOfContextLines != 3L)
 			{
-				try 
-				{
-					taskCompletionSource.SetResult(response.Content);
-				} 
-				catch (Exception exception) 
-				{
-					var bitbucketException = new BitbucketException("Could get diff for pull request.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;	
+				parameters = new Dictionary<string,string>();
+				parameters.Add(NUMBER_OF_CONTEXT_LINES_PARAMETER, numberOfContextLines.ToString());
+			}
+			var request = new RestComplexRequest(Method.GET, segments, parameters, null);
+			var task = MakeAsyncRequest<string>(DIFF_SPECIFIED_PULL_REQUEST_RESOURCE, request);
+			return task;	
 		}
 
 		public Task<PaginatedResponse<Activity>> GetAllActivityAsync(string owner, string reposlug,
 																	 PaginatedRequest paginatedRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
 			var request = new RestComplexRequest(Method.GET, segments, parameters);
@@ -235,7 +150,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		public Task<Activity> GetActivityAsync(string owner, string reposlug, long pullRequestId, 
 											   PaginatedRequest paginatedRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
 			var request = new RestComplexRequest(Method.GET, segments, parameters);
@@ -246,70 +160,30 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		public Task<PullRequest> AcceptAsync(string owner, string reposlug, long pullRequestId,
 										     string message = "", bool closeSourceBranch = false)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<PullRequest>();
-			var request = new RestRequest(MERGE_PULL_REQUEST_RESOURCE, Method.POST);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
-			if(message != string.Empty)
-			{
-				request.AddParameter("message", message);
-			}
-			if(closeSourceBranch == true)
-			{
-				request.AddParameter("close_source_branch", closeSourceBranch);
-			}
-			_client.ExecuteAsync(request, response => 
-			{
-				try 
-				{
-					var result = JsonConvert.DeserializeObject<PullRequest>(response.Content);
-					taskCompletionSource.SetResult(result);
-				} 
-				catch (Exception exception) 
-				{
-					var bitbucketException = new BitbucketException("Could not do merge.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);			
+			segments.Add(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
+			var parameters = new Dictionary<string,string>();
+			parameters.Add(MESSAGE_PARAMETER, message);
+			parameters.Add(CLOSE_SOURCE_BRANCH_PARAMETER, closeSourceBranch.ToString());
+			var request = new RestComplexRequest(Method.POST, segments, parameters, null);
+			var task = MakeAsyncRequest<PullRequest>(MERGE_PULL_REQUEST_RESOURCE, request);
+			return task;	
 		}
 		
 		public Task<PullRequest> DeclineAsync(string owner, string reposlug, long pullRequestId, string message = "")
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<PullRequest>();
-			var request = new RestRequest(DECLINE_PULL_REQUEST_RESOURCE, Method.POST);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
-			if(message != string.Empty)
-			{
-				request.AddParameter("message", message);
-			}
-			_client.ExecuteAsync(request, response => 
-			{
-				try 
-				{
-					var result = JsonConvert.DeserializeObject<PullRequest>(response.Content);
-					taskCompletionSource.SetResult(result);
-				} 
-				catch (Exception exception) 
-				{
-					var bitbucketException = new BitbucketException("Could not do decline.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);			
+			segments.Add(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
+			var parameters = new Dictionary<string,string>();
+			parameters.Add(MESSAGE_PARAMETER, message);
+			var request = new RestComplexRequest(Method.POST, segments, parameters, null);
+			var task = MakeAsyncRequest<PullRequest>(DECLINE_PULL_REQUEST_RESOURCE, request);
+			return task;
 		}
 		
 		public Task<PaginatedResponse<Comment>> GetCommentsAsync(string owner, string reposlug, long pullRequestId,
 																 PaginatedRequest paginatedRequest)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
 			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
 			segments.Add(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
@@ -320,29 +194,12 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		
 		public Task<Comment> GetCommentAsync(string owner, string reposlug, long pullRequestId, long commentId)
 		{
-			_client.BaseUrl = PULL_REQUEST_BASE_URL_2;
-			var taskCompletionSource = new TaskCompletionSource<Comment>();
-			var request = new RestRequest(COMMENTS_PULL_REQUEST_RESOURCE, Method.GET);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.AddUrlSegment(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
-			request.AddUrlSegment(COMMENT_ID_SEGMENT, commentId.ToString());
-
-			_client.ExecuteAsync(request, response => 
-			{
-				try 
-				{
-					var result = JsonConvert.DeserializeObject<Comment>(response.Content);
-					taskCompletionSource.SetResult(result);
-				} 
-				catch (Exception exception) 
-				{
-					var bitbucketException = new BitbucketException("Could not retrieve comment for pull request.", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-			});			
-			return taskCompletionSource.Task;	
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			segments.Add(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
+			segments.Add(COMMENT_ID_SEGMENT, commentId.ToString());
+			var request = new RestComplexRequest(Method.GET, segments, null, null);
+			var task = MakeAsyncRequest<Comment>(COMMENTS_PULL_REQUEST_RESOURCE, request);
+			return task;	
 		}
 	}
 
