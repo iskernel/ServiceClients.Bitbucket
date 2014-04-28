@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsKernel.ServiceClients.Bit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsKernel.ServieClients.Bitbucket.Tests", "IsKernel.ServieClients.Bitbucket.Tests\IsKernel.ServieClients.Bitbucket.Tests.csproj", "{1DB6F289-BD6C-48E6-82B4-5837255AE780}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsKernel.ServiceClients.Bitbucket.ConsoleExample", "IsKernel.ServiceClients.Bitbucket.ConsoleExample\IsKernel.ServiceClients.Bitbucket.ConsoleExample.csproj", "{E353DDF8-947F-4519-9E40-47F5A564D464}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,5 +22,9 @@ Global
 		{1DB6F289-BD6C-48E6-82B4-5837255AE780}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DB6F289-BD6C-48E6-82B4-5837255AE780}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DB6F289-BD6C-48E6-82B4-5837255AE780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E353DDF8-947F-4519-9E40-47F5A564D464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E353DDF8-947F-4519-9E40-47F5A564D464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E353DDF8-947F-4519-9E40-47F5A564D464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E353DDF8-947F-4519-9E40-47F5A564D464}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

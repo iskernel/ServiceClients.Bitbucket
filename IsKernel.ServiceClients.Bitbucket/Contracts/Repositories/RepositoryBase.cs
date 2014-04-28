@@ -35,6 +35,9 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Repositories
 		[JsonProperty("updated_on")]
 		public DateTime? UpdatedOn {get;set;}
 		
+		[JsonProperty("created_on")]
+		public DateTime? CreatedOn {get;set;}
+		
 		[JsonProperty("size")]
 		public long? Size {get;set;}
 		
