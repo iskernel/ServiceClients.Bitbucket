@@ -97,8 +97,8 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 			var result = _client.AddAsync(_defaultUser, _defaultRepository, branchRestriction).Result;
 			var restrictions = _client.GetAllAsync(_defaultUser, _defaultRepository, paginatedRequest).Result;
 			var id = restrictions.Values[0].Id.ToString();
-			result.Pattern = "newPattern";
-			var newResult = _client.EditAsync(_defaultUser, _defaultRepository, id, result).Result;
+			restrictions.Values[0].Pattern = "newPattern";
+			var newResult = _client.EditAsync(_defaultUser, _defaultRepository, id, restrictions.Values[0]).Result;
 			bool condition = (newResult.Pattern == "newPattern");
 			Assert.IsTrue(condition);
 		}

@@ -28,13 +28,13 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		public void GetDiffAsync_GetDiff_DiffIsRetrieved()
 		{
 			var diff = _client.GetDiffAsync(_defaultUser, _defaultRepository, "default").Result;
-			AssertHelper.AtLeastOnePropertyIsNotDefault(diff);
+			Assert.IsNotNullOrEmpty(diff);
 		}
 		
 		[Test]
 		public void GetPatchAsync_GetPatch_PatchIsRetrieved()
 		{
-			var diff = _client.GetDiffAsync(_defaultUser, _defaultRepository, "default").Result;
+			var diff = _client.GetPatchAsync(_defaultUser, _defaultRepository, "default").Result;
 			Assert.IsNotNullOrEmpty(diff);
 		}
 		

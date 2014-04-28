@@ -117,7 +117,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		public void ApproveAsync_ApprovePullRequest_PullRequestIsApproved()
 		{
 			var states = new List<PullRequestState>() {
-				PullRequestState.Open
+				PullRequestState.Open,
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
 			var pullRequest = _client.ApproveAsync(_defaultUser, _defaultRepository, result.Values[0].Id.Value).Result;
@@ -139,7 +139,9 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		public void GetDiffAsync_GetDiffForPullRequest_DiffIsRetrieved()
 		{
 			var states = new List<PullRequestState>() {
-				PullRequestState.Open
+				PullRequestState.Open,
+				PullRequestState.Merged,
+				PullRequestState.Declined
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
 			var diff = _client.GetDiffAsync(_defaultUser, _defaultRepository, result.Values[0].Id.Value).Result;
@@ -205,7 +207,9 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		public void GetCommentAsync_GetCommentForPullRequest_CommentIsRetrieved()
 		{
 			var states = new List<PullRequestState>() {
-				PullRequestState.Open
+				PullRequestState.Open,
+				PullRequestState.Merged,
+				PullRequestState.Declined
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, 
 											 states, new PaginatedRequest()).Result;

@@ -43,7 +43,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 			{
 				dictionary.Add("pattern", Pattern.ToString());
 			}
-			if(Users!=null)
+			if( (Users!=null) && (Users.Length > 0) )
 			{
 				var builder = new StringBuilder();
 				foreach (var element in Users) 
@@ -55,32 +55,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Contracts.Branches
 				dictionary.Add("users", tempString.Substring(0, tempString.Length - 1));
 			}
 			return dictionary;
-//			var query = HttpUtility.ParseQueryString(string.Empty);
-//			if(Id!=null)
-//			{
-//				query["id"] = Id.ToString();
-//			}
-//			if(Kind!=null)
-//			{
-//				query["kind"] = Kind;
-//			}
-//			if(Pattern!=null)
-//			{
-//				query["pattern"] = Pattern;
-//			}
-//			if(Users!=null)
-//			{
-//				var builder = new StringBuilder();
-//				foreach (var element in Users) 
-//				{
-//					builder.Append(element.Username);
-//					builder.Append("|");	
-//				}
-//				var tempString = builder.ToString();
-//				query["users"] = tempString.Substring(0, tempString.Length - 1);
-//			}
-//			string queryString = query.ToPostData();
-//			return queryString;
 		}
 	}
 }
