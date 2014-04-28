@@ -12,7 +12,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 	{
 		Task<Team> GetProfileAsync(string user);
 		Task<PaginatedResponse<User>> GetFollowersAsync(string user, PaginatedRequest request);
-		Task<PaginatedResponse<User>> GetFollowedAsync(string user, PaginatedRequest request);
-		Task<PaginatedResponse<Repository>> GetRepositoriesAsync(string teamName, PaginatedRequest request);
+		Task<PaginatedResponse<User>> GetFollowingAsync(string user, PaginatedRequest request);
 	}
 }

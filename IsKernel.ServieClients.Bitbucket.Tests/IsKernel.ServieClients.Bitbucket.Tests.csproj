@@ -53,6 +53,8 @@
     <Compile Include="Clients\BitbucketDiffClientTests.cs" />
     <Compile Include="Clients\BitbucketPullRequestClientTests.cs" />
     <Compile Include="Clients\BitbucketRepositoryClientTests.cs" />
+    <Compile Include="Clients\BitbucketTeamClientTests.cs" />
+    <Compile Include="Clients\BitbucketUserClientTests.cs" />
     <Compile Include="TestHelpers\AssertHelper.cs" />
     <Compile Include="TestHelpers\BitbucketClientTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

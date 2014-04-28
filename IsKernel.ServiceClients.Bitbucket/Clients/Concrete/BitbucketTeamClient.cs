@@ -48,7 +48,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 				{TEAM_NAME_SEGMENT, teamName}
 			};
 			var restRequest = new RestComplexRequest(Method.GET, segments, null);
-			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_NAME_RESOURCE, restRequest);
+			var task = MakeAsyncRequest<PaginatedResponse<User>>(TEAM_MEMBERS_RESOURCE, restRequest);
 			return task;	
 		}
 		

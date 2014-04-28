@@ -23,25 +23,33 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		private const string MESSAGE_PARAMETER = "message";
 		private const string CLOSE_SOURCE_BRANCH_PARAMETER = "close_source_branch";
 		
-		private const string PULL_REQUEST_BASE_URL_2 = "https://api.bitbucket.org/2.0/repositories";
+		private const string PULL_REQUEST_BASE_URL 
+		= "https://api.bitbucket.org/2.0/repositories";
 		
-		private const string DEFAULT_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests";
-		private const string ACTIVITY_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/activity";
-		private const string SPECIFIC_ACTIVITY_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/activity";
+		private const string DEFAULT_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests";
+		private const string ACTIVITY_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests/activity";
+		private const string SPECIFIC_ACTIVITY_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/activity";
 		private const string MERGE_PULL_REQUEST_RESOURCE 
 							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/merge";
 		private const string DECLINE_PULL_REQUEST_RESOURCE 
-							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/decline";
+	    					 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/decline";
 		private const string COMMENTS_PULL_REQUEST_RESOURCE 
 							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/comments";
 		private const string SPECIFIC_COMMENT_PULL_REQUEST_RESOURCE 
 							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}";
-		private const string SPECIFIED_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}";
-		private const string APPROVE_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/approve";
-		private const string COMMITS_SPECIFIED_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/commits";
-		private const string DIFF_SPECIFIED_PULL_REQUEST_RESOURCE = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/diff";
+		private const string SPECIFIED_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}";
+		private const string APPROVE_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/approve";
+		private const string COMMITS_SPECIFIED_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/commits";
+		private const string DIFF_SPECIFIED_PULL_REQUEST_RESOURCE 
+							 = @"/{owner}/{repo_slug}/pullrequests/{pull_request_id}/diff";
 		
-		public BitbucketPullRequestClient(IAuthenticator authentificator) : base(authentificator, PULL_REQUEST_BASE_URL_2)
+		public BitbucketPullRequestClient(IAuthenticator authentificator) : base(authentificator, PULL_REQUEST_BASE_URL)
 		{
 			
 		}
@@ -194,7 +202,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			segments.Add(PULL_REQUEST_ID_SEGMENT, pullRequestId.ToString());
 			segments.Add(COMMENT_ID_SEGMENT, commentId.ToString());
 			var request = new RestComplexRequest(Method.GET, segments, null, null);
-			var task = MakeAsyncRequest<Comment>(COMMENTS_PULL_REQUEST_RESOURCE, request);
+			var task = MakeAsyncRequest<Comment>(SPECIFIC_COMMENT_PULL_REQUEST_RESOURCE, request);
 			return task;	
 		}
 	}

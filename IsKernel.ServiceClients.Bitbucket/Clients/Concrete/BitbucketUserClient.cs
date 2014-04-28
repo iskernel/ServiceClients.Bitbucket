@@ -16,7 +16,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 	{
 		private const string BASE_URL = "https://bitbucket.org/api/2.0/users";
 		
-		private const string USERNAME_SEGMENT = "{username}";
+		private const string USERNAME_SEGMENT = "username";
 		
 		private const string USER_RESOURCE = "/{username}";
 		private const string FOLLOWERS_RESOURCE = "/{username}/followers";
@@ -51,7 +51,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			return task;
 		}
 		
-		public Task<PaginatedResponse<User>> GetFollowedAsync(string user, PaginatedRequest request)
+		public Task<PaginatedResponse<User>> GetFollowingAsync(string user, PaginatedRequest request)
 		{
 			var segments = new Dictionary<string,string>()
 			{
@@ -60,18 +60,6 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			var parameters = CreateDefaultPaginationParameters(request);
 			var restRequest = new RestComplexRequest(Method.GET, segments, parameters);
 			var task = MakeAsyncRequest<PaginatedResponse<User>>(FOLLOWING_RESOURCE, restRequest);
-			return task;
-		}
-		
-		public Task<PaginatedResponse<Repository>> GetRepositoriesAsync(string user, PaginatedRequest request)
-		{
-			var segments = new Dictionary<string,string>()
-			{
-				{USERNAME_SEGMENT, user}
-			};
-			var parameters = CreateDefaultPaginationParameters(request);
-			var restRequest = new RestComplexRequest(Method.GET, segments, parameters);
-			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(REPOSITORIES_RESOURCE, restRequest);
 			return task;
 		}
 	}

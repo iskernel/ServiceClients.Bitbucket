@@ -98,6 +98,8 @@
     <Compile Include="Contracts\Repositories\Parameters\ForkingPolicy.cs" />
     <Compile Include="Contracts\Repositories\Parameters\RepositoryCreateOptionalParameters.cs" />
     <Compile Include="Contracts\Repositories\Parameters\Scm.cs" />
+    <Compile Include="Contracts\Repositories\RepositoryBase.cs" />
+    <Compile Include="Contracts\Repositories\RepositoryCreated.cs" />
     <Compile Include="Contracts\Teams\Team.cs" />
     <Compile Include="Contracts\Users\Author.cs" />
     <Compile Include="Contracts\Users\Participant.cs" />

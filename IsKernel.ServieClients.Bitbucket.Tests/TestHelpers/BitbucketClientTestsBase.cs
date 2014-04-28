@@ -15,6 +15,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.TestHelpers
 		protected string _defaultUser;
 		protected string _defaultRepository;
 		protected string _defaultCommit;
+		protected string _defaultTeam;
 		
 		public virtual void Setup()
 		{
@@ -29,6 +30,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.TestHelpers
 			_defaultUser = bitbucketData[4];
 			_defaultRepository = bitbucketData[5];
 			_defaultCommit = bitbucketData[6];
+			_defaultTeam = bitbucketData[7];
 			
 			var authClient = new BitbucketAuthenticationClient(apiKey, apiSecretKey);		
 			_mainClient = authClient.AuthentificateWithAccessToken(token, tokenSecret);

@@ -31,67 +31,27 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		
 		public Task<Repository> GetAsync(string owner, string reposlug)
 		{					
-			var taskCompletionSource = new TaskCompletionSource<Repository>();
-			
-			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE);
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			
-			request.Method = Method.GET;
-			_client.ExecuteAsync(request, response => {
-				try {
-					var repository = JsonConvert.DeserializeObject<Repository>(response.Content);
-					taskCompletionSource.SetResult(repository);
-				} catch (Exception exception) {
-					var bitbucketException = new BitbucketException("Could not read repository", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;			
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			var request = new RestComplexRequest(Method.GET, segments, null);
+			var task = MakeAsyncRequest<Repository>(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE, request);
+			return task;			
 		}
 		
-		public Task<bool> CreateAsync(string owner, string reposlug, RepositoryCreateOptionalParameters optional)
+		public Task<RepositoryCreated> CreateAsync(string owner, string reposlug, RepositoryCreateOptionalParameters optional)
 		{
-			var taskCompletionSource = new TaskCompletionSource<bool>();
-			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE, Method.POST);
-			
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(optional);
-			
-			_client.ExecuteAsync(request, response => {
-				try {
-					taskCompletionSource.SetResult(true);
-				} catch (Exception exception) {
-					var bitbucketException = new BitbucketException("Could not post repository", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;			
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			var request = new RestComplexDataRequest(Method.POST, segments, null, null, optional, 
+													 RestDataContentType.Json);
+			var task = MakeAsyncRequest<RepositoryCreated>(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE, request);
+			return task;		
 		}
 		
-		public Task<bool> DeleteAsync(string owner, string reposlug)
+		public Task<string> DeleteAsync(string owner, string reposlug)
 		{
-			var taskCompletionSource = new TaskCompletionSource<bool>();
-			
-			var request = new RestRequest(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE);
-			request.AddUrlSegment(OWNER_SEGMENT, owner);
-			request.AddUrlSegment(REPO_SLUG_SEGMENT, reposlug);
-			request.Method = Method.DELETE;
-			
-			_client.ExecuteAsync(request, response => {
-				try {
-					taskCompletionSource.SetResult(true);
-				} catch (Exception exception) {
-					var bitbucketException = new BitbucketException("Could not delete repository", exception);
-					taskCompletionSource.SetException(bitbucketException);
-				}
-
-			});			
-			return taskCompletionSource.Task;			
+			var segments = CreateDefaultSegmentsDictionary(owner, reposlug);
+			var request = new RestComplexRequest(Method.DELETE, segments, null, null);
+			var task = MakeAsyncRequest<string>(DEFAULT_SPECIFIC_REPOSITORY_RESOURCE, request);
+			return task;			
 		}
 		
 		public Task<PaginatedResponse<User>> GetWatchersAsync(string owner, string reposlug, 
@@ -122,7 +82,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 			};
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
 			var restRequest = new RestComplexRequest(Method.GET, segments, parameters);
-			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(FORKS_REPOSITORY_RESOURCE, restRequest);
+			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(DEFAULT_OWNER_RESOURCE, restRequest);
 			return task;	
 		}
 		
@@ -130,7 +90,7 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Concrete
 		{
 			var parameters = CreateDefaultPaginationParameters(paginatedRequest);
 			var restRequest = new RestComplexRequest(Method.GET, null, parameters);
-			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(FORKS_REPOSITORY_RESOURCE, restRequest);
+			var task = MakeAsyncRequest<PaginatedResponse<Repository>>(string.Empty, restRequest);
 			return task;	
 		}
 	}

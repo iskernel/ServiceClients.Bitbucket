@@ -23,15 +23,15 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 		/// <param name="owner">The owner of the repository (must be authentificated)</param>
 		/// <param name="reposlug">The reposlug (name) associated with the repository</param>
 		/// <param name="optional">Optional parameters for the creation of the repository</param>
-		/// <returns>True if the repository was created</returns>
-		Task<bool> CreateAsync(string owner, string reposlug, RepositoryCreateOptionalParameters optional);
+		/// <returns>The repository was created</returns>
+		Task<RepositoryCreated> CreateAsync(string owner, string reposlug, RepositoryCreateOptionalParameters optional);
 		/// <summary>
 		/// Deletes an existing repository
 		/// </summary>
 		/// <param name="owner">The owner of the repository (must be authentificated)</param>
 		/// <param name="reposlug">The reposlug (name) associated with the repository</param>
-		/// <returns>True if the repository was deleted</returns>
-		Task<bool> DeleteAsync(string owner, string reposlug);
+		/// <returns>The repository was deleted</returns>
+		Task<string> DeleteAsync(string owner, string reposlug);
 		/// <summary>
 		/// Returns all users who watch a repository
 		/// </summary>

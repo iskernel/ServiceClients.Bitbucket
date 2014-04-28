@@ -36,8 +36,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void GetAllAsync_ReadPullRequests_PullRequestsAreRetrieved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
@@ -47,35 +46,26 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void CreateAsync_CreatePullRequest_PullRequestIsCreated()
 		{
-			var pullRequest = new PullRequest()
-			{
+			var pullRequest = new PullRequest() {
 				Title = "pull request title",
-				Source = new CommitLocation()
-				{
-					Branch = new Branch()
-					{
+				Source = new CommitLocation() {
+					Branch = new Branch() {
 						Name = "default"
 					},
-					Repository = new Repository()
-					{
-						FullName = _defaultUser+"/"+_defaultRepository
+					Repository = new Repository() {
+						FullName = _defaultUser + "/" + _defaultRepository
 					}
 				},
-				Destination = new CommitLocation()
-				{
-					Branch = new Branch()
-					{
+				Destination = new CommitLocation() {
+					Branch = new Branch() {
 						Name = "default"
 					},
-					Commit = new Commit()
-					{
+					Commit = new Commit() {
 						Hash = _defaultCommit
 					}
 				},
-				Reviewers = new User[1]
-				{
-					new User()
-					{
+				Reviewers = new User[1] {
+					new User() {
 						Username = _defaultUser
 					}
 				},
@@ -88,15 +78,14 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void EditAsync_EditPullRequest_PullRequestIsEdited()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
 			var selectedRequest = result.Values[0];
 			selectedRequest.Title = "Hey!";
 			var editedPullRequest 
-				= _client.EditAsync(_defaultUser, _defaultRepository, selectedRequest.Id.Value, selectedRequest).Result;
+			= _client.EditAsync(_defaultUser, _defaultRepository, selectedRequest.Id.Value, selectedRequest).Result;
 			bool condition = (editedPullRequest.Title == "Hey!");
 			Assert.IsTrue(condition);
 		}
@@ -104,8 +93,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void GetAsync_GetPullRequest_PullRequestIsRead()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
@@ -116,21 +104,19 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void GetCommitsAsync_GetPullRequestCommits_PullRequestCommitsAreRead()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
 			var list = _client.GetCommitsAsync(_defaultUser, _defaultRepository, result.Values[0].Id.Value, new PaginatedRequest())
-					   .Result;
+				.Result;
 			AssertHelper.AtLeastOnePropertyIsNotDefault<PaginatedResponse<Commit>>(list);
 		}
 		
 		[Test]
 		public void ApproveAsync_ApprovePullRequest_PullRequestIsApproved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
@@ -141,8 +127,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void DisapproveAsync_DisapprovePullRequest_PullRequestIsDisapproved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
@@ -153,8 +138,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void GetDiffAsync_GetDiffForPullRequest_DiffIsRetrieved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
@@ -172,62 +156,66 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.Clients
 		[Test]
 		public void GetActivityAsync_GetActivityForPullRequest_ActivityRetrieved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
-			var activity = _client.GetActivityAsync(_defaultUser, _defaultRepository,result.Values[0].Id.Value, 
-												  new PaginatedRequest()).Result;
+			var activity = _client.GetActivityAsync(_defaultUser, _defaultRepository, result.Values[0].Id.Value, 
+				               new PaginatedRequest()).Result;
 			AssertHelper.AtLeastOnePropertyIsNotDefault<PaginatedResponse<Activity>>(activity);
 		}
 		
 		[Test]
 		public void AcceptAsync_AcceptPullRequest_PullRequestAccepted()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
-			var pullRequest = _client.AcceptAsync(_defaultUser, _defaultRepository,result.Values[0].Id.Value).Result;
+			var pullRequest = _client.AcceptAsync(_defaultUser, _defaultRepository, result.Values[0].Id.Value).Result;
 			AssertHelper.AtLeastOnePropertyIsNotDefault<PullRequest>(pullRequest);
 		}
 		
 		[Test]
 		public void DeclineAsync_DeclinePullRequest_PullRequestDeclined()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
 			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
-			var pullRequest = _client.DeclineAsync(_defaultUser, _defaultRepository,result.Values[0].Id.Value).Result;
+			var pullRequest = _client.DeclineAsync(_defaultUser, _defaultRepository, result.Values[0].Id.Value).Result;
 			AssertHelper.AtLeastOnePropertyIsNotDefault<PullRequest>(pullRequest);
 		}
 		
 		[Test]
 		public void GetCommentsAsync_GetCommentsForPullRequest_CommentsRetrieved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
-			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
-			var list = _client.GetCommentsAsync(_defaultUser, _defaultRepository,result.Values[0].Id.Value).Result;
-			AssertHelper.AtLeastOnePropertyIsNotDefault<PaginatedResponse<Comment>(list);
+			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, 
+				             states, new PaginatedRequest()).Result;
+			var list = _client.GetCommentsAsync(_defaultUser, _defaultRepository,
+				           result.Values[0].Id.Value, 
+				           new PaginatedRequest()).Result;
+			AssertHelper.AtLeastOnePropertyIsNotDefault<PaginatedResponse<Comment>>(list);
 		}
 		
 		[Test]
 		public void GetCommentAsync_GetCommentForPullRequest_CommentIsRetrieved()
 		{
-			var states = new List<PullRequestState>()
-			{
+			var states = new List<PullRequestState>() {
 				PullRequestState.Open
 			};
-			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, states, new PaginatedRequest()).Result;
-			var list = _client.GetCommentAsync(_defaultUser, _defaultRepository,result.Values[0].Id.Value, 1).Result;
-			AssertHelper.AtLeastOnePropertyIsNotDefault<PaginatedResponse<Comment>(list);
+			var result = _client.GetAllAsync(_defaultUser, _defaultRepository, 
+											 states, new PaginatedRequest()).Result;
+			var list = _client.GetCommentsAsync(_defaultUser, _defaultRepository,
+				          				 		result.Values[0].Id.Value, 
+				           						new PaginatedRequest()).Result;
+			var comment = _client.GetCommentAsync(_defaultUser, _defaultRepository, 
+												  result.Values[0].Id.Value, 
+												  list.Values[0].Id.Value).Result;
+			AssertHelper.AtLeastOnePropertyIsNotDefault<Comment>(comment);
 		}
 		
 	}
