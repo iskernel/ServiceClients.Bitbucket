@@ -8,14 +8,17 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.TestHelpers
 {
 	public class BitbucketClientTestsBase
 	{
+		private const string TEST_FILE_PATH = "ApiKeys.txt";
+		
 		protected IBitbucketClient _mainClient;
+		
 		protected string _defaultUser;
 		protected string _defaultRepository;
 		protected string _defaultCommit;
 		
 		public virtual void Setup()
 		{
-			var bitbucketData = File.ReadAllText("ApiKeys.txt")
+			var bitbucketData = File.ReadAllText(TEST_FILE_PATH)
 							    .Split(Environment.NewLine.ToCharArray())
 							    .Where(line => string.IsNullOrWhiteSpace(line) == false)
 							    .ToArray();
@@ -26,6 +29,7 @@ namespace IsKernel.ServieClients.Bitbucket.Tests.TestHelpers
 			_defaultUser = bitbucketData[4];
 			_defaultRepository = bitbucketData[5];
 			_defaultCommit = bitbucketData[6];
+			
 			var authClient = new BitbucketAuthenticationClient(apiKey, apiSecretKey);		
 			_mainClient = authClient.AuthentificateWithAccessToken(token, tokenSecret);
 		}

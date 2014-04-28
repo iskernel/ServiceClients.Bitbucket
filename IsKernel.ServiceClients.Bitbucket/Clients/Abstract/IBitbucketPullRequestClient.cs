@@ -24,15 +24,17 @@ namespace IsKernel.ServiceClients.Bitbucket.Clients.Abstract
 		
 		Task<PaginatedResponse<Commit>> GetCommitsAsync(string owner, string reposlug, long id, PaginatedRequest paginatedRequest);
 		
-		Task<string> ApproveAsync(string owner, string reposlug, long id);
+		Task<PullRequest> ApproveAsync(string owner, string reposlug, long id);
 		
-		Task<string> DisapproveAsync(string owner, string reposlug, long id);
+		Task<PullRequest> DisapproveAsync(string owner, string reposlug, long id);
 		
 		Task<string> GetDiffAsync(string owner, string reposlug, long id, long numberOfContextLines = 3);
 		
 		Task<PaginatedResponse<Activity>> GetAllActivityAsync(string owner, string reposlug, PaginatedRequest paginatedRequest);
 		
-		Task<Activity> GetActivityAsync(string owner, string reposlug, long pullRequestId, PaginatedRequest paginatedRequest);
+		Task<PaginatedResponse<Activity>> GetActivityAsync(string owner, string reposlug, long pullRequestId, 
+														   PaginatedRequest paginatedRequest);
+		
 		Task<PullRequest> AcceptAsync(string owner, string reposlug, long pullRequestId, string message = "", 
 									  bool closeSourceBranch = false);
 		
